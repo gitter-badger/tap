@@ -43,7 +43,8 @@ angular.module('tapApp', [
       responseError: function (response) {
         if (response.status === 401) {
           var $state = $injector.get('$state');
-          $state.go('login');
+          $injector.get('$state').go('main.home');
+          $injector.get('LoginModal').open();
           // remove any stale tokens
           $cookieStore.remove('token');
           return $q.reject(response);
@@ -89,13 +90,14 @@ angular.module('tapApp', [
 
     TrNgGrid.translations['pt-br'] = defaultTranslation;
   })
-  .run(function ($rootScope, Auth, $state, $window, $location, SEO, $injector) {
+  .run(function ($rootScope, Auth, $state, $window, $location, SEO, $injector, LoginModal) {
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, next) {
       Auth.isLoggedInAsync(function (loggedIn) {
         if ((next.authenticate || next.role) && !loggedIn) {
           event.preventDefault();
-          $state.go('login');
+          $state.go('main.home');
+          LoginModal.open();
           return;
         }
         if ((next.role && loggedIn) && !next.role($injector)) {

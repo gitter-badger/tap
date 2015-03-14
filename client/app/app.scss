@@ -1,6 +1,5 @@
 $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 $fa-font-path: "/bower_components/font-awesome/fonts";
-$gray-dark: lighten(#000, 20%) !default;
 
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'font-awesome/scss/font-awesome';
@@ -12,10 +11,6 @@ $gray-dark: lighten(#000, 20%) !default;
 html,
 body {
   overflow-x: hidden; /* Prevent scroll on narrow devices */
-}
-
-body {
-  background: none repeat scroll 0% 0% $gray-dark;
 }
 
 .browsehappy {

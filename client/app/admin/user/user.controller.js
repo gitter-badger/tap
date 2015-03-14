@@ -4,6 +4,7 @@ angular.module('tapApp')
   .controller('UserCtrl', function ($scope, User, $stateParams, $location) {
     $scope.users = User.query({controller: 'admin'});
     $scope.user = {};
+    $scope.errors = {};
 
     $scope.edit = function (user) {
       $scope.ui.loading();
@@ -65,7 +66,14 @@ angular.module('tapApp')
         $scope.submitted = false;
         $scope.ui.loaded();
         $scope.ui.alert('Não foi possível adicionar o registro!', 'danger');
-        console.log(err);
+        err = err.data;
+        $scope.errors = {};
+
+        // Update validity of form fields that match the mongoose errors
+        angular.forEach(err.errors, function(error, field) {
+          form[field].$setValidity('mongoose', false);
+          $scope.errors[field] = error.message;
+        });
       });
     };
 

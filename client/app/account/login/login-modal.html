@@ -1,0 +1,32 @@
+<div class="modal-header modal-header-login">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Fechar" ng-click="cancel()"><span
+    aria-hidden="true">&times;</span></button>
+  <h3 class="modal-title"><span class="fa fa-paw fa-lg"></span> Faça seu login</h3>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-xs-12">
+      <p>
+        Escolha uma rede social para fazer seu login no
+        <strong>todasaspatas.com</strong>, é rápido e fácil!
+      </p>
+    </div>
+    <div class="col-xs-12">
+      <a class="btn btn-facebook" href="" ng-click="loginOauth('facebook')">
+        <i class="fa fa-facebook"></i> Login com Facebook
+      </a>
+      <a class="btn btn-google-plus" href="" ng-click="loginOauth('google')">
+        <i class="fa fa-google-plus"></i> Login com Google+
+      </a>
+    </div>
+    <div class="col-xs-12" style="margin-top: 10px;">
+      <p>
+        <strong>Não se preocupe</strong>, nada será postado no seu perfil social.
+      </p>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <a class="btn btn-link" ui-sref="login" ng-click="cancel()">Admin</a>
+  <button class="btn btn-warning" ng-click="cancel()">Fechar</button>
+</div>

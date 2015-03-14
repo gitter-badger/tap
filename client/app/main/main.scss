@@ -1,8 +1,16 @@
 $navbar-inverse-bg: $gray-dark !default;
 $grid-float-breakpoint: 992px;
 $background-color: #F0EFEB;
+$gray-dark: lighten(#000, 20%) !default;
 
 #main {
+  background: none repeat scroll 0% 0% $gray-dark;
+  height: 100vh;
+
+  .pointer {
+    cursor: pointer;
+  }
+
   .row-page {
     min-height: 400px !important;
   }

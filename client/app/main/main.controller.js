@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('tapApp')
-  .controller('MainCtrl', function ($scope, Auth, $state) {
+  .controller('MainCtrl', function ($scope, Auth, $state, LoginModal) {
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.isAdmin = Auth.isAdmin;
     $scope.getCurrentUser = Auth.getCurrentUser;
     $scope.login = function () {
-      $state.go('admin.dashboard');
+      LoginModal.open();
     };
     $scope.logout = function () {
       Auth.logout();
