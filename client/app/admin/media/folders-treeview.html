@@ -1,0 +1,26 @@
+<div class="tree-node">
+  <div class="tree-node-content">
+    <a class="btn btn-success btn-xs" ng-click="toggle(this)">
+      <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}">
+      </span>
+    </a>
+    <a ng-click="$parent.editFolder(node)" style="cursor: pointer;">
+      {{node.name}}
+    </a>
+    <a class="pull-right btn btn-info btn-xs" ng-click="$parent.editFolder(node)" style="margin-right: 8px;">
+      <span class="fa fa-edit"></span>
+    </a>
+    <a class="pull-right btn btn-danger btn-xs" ng-click="$parent.deleteFolder(node)" style="margin-right: 8px;">
+      <span class="fa fa-remove"></span>
+    </a>
+    <a class="pull-right btn btn-primary btn-xs" ng-click="$parent.folder.parentId = node._id"
+       style="margin-right: 8px;">
+      <span class="fa fa-plus">
+      </span>
+    </a>
+  </div>
+</div>
+<ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">
+  <li ng-repeat="node in node.children" ui-tree-node ng-include="'app/admin/media/folders-treeview.html'">
+  </li>
+</ol>

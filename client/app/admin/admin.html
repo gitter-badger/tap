@@ -1,0 +1,54 @@
+<div id="admin">
+  <!--http://startbootstrap.com/template-overviews/sb-admin/-->
+  <div id="wrapper">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" ng-init="menuIsCollapsed = true"
+                ng-click="menuIsCollapsed = !menuIsCollapsed">
+          <span class="sr-only">Alternar navegação</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" ui-sref="main.home">tapApp Admin</a>
+      </div>
+      <ul class="nav navbar-right top-nav">
+        <li ng-show='ui.isLoading()'>
+          <a>
+            <three-bounce-spinner class="admin-spinner">
+            </three-bounce-spinner>
+          </a>
+        </li>
+        <li class="dropdown" ng-init="configIsCollapsed = true" ng-click="configIsCollapsed = !configIsCollapsed">
+          <a href="#" class="dropdown-toggle"><i class="fa fa-user"></i> {{getCurrentUser().name}} <b class="caret"></b></a>
+          <ul class="dropdown-menu" collapse="configIsCollapsed">
+            <li>
+              <a ui-sref="admin.settings"><i class="fa fa-fw fa-gear"></i> Configurações</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <a href="#" ng-click="logout()"><i class="fa fa-fw fa-power-off"></i>Log Out</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div class="collapse navbar-collapse navbar-ex1-collapse" collapse="menuIsCollapsed">
+        <ul class="nav navbar-nav side-nav">
+          <li data-to-top ng-class="{active: menuIsActive('admin.dashboard')}">
+            <a ui-sref="admin.dashboard"><i class="fa fa-fw fa-dashboard"></i> Área de Trabalho</a>
+          </li>
+          <li data-to-top ng-class="{active: menuIsActive('admin.user')}">
+            <a ui-sref="admin.user"><i class="fa fa-fw fa-users"></i> Usuários</a>
+          </li>
+          <li data-to-top ng-class="{active: menuIsActive('admin.media')}">
+            <a ui-sref="admin.media"><i class="fa fa-fw fa-folder-open"></i> Mídias</a>
+          </li>
+          <li data-to-top ng-class="{active: menuIsActive('admin.thing')}" ng-if="getCurrentUser().role === 'root'">
+            <a ui-sref="admin.thing"><i class="fa fa-fw fa-table"></i> Coisas</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div ui-view></div>
+  </div>
+</div>
