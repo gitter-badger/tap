@@ -53,8 +53,8 @@ var all = {
     id: process.env.AWS_ID || 'id',
     secret: process.env.AWS_SECRET || 'secret',
     s3: {
-      bucket: 'tap-secret',
-      prefixKey: 'app/'
+      bucket: 'byteincoffee',
+      prefixKey: 'tap/'
     }
   },
 
