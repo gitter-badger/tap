@@ -1,1 +1,149 @@
-home
+<div class="container-fluid container-view">
+  <div class="row row-offcanvas row-offcanvas-right">
+    <div class="col-xs-12 col-sm-12 col-md-9">
+      <div class="row">
+        <div class="col-xs-12">
+          <form class="form-inline filter-main" ng-submit="filter()">
+            <div class="form-group">
+              <label class="sr-only" for="main-type">Tipo de animal</label>
+              <select class="form-control" id="main-type" ng-model="type" name="type"
+                      ng-options="type.description for type in enums.type" ng-change="updateBreeds();
+                                    updatePets();">
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="sr-only" for="main-breed">Raça preferida</label>
+              <select class="form-control" id="main-breed" ng-model="breed" name="breed"
+                      ng-options="breed.name for breed in breeds" ng-change="onChangeBreed();
+                                    updatePets();">
+                <option value="">Raça preferida</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="sr-only" for="main-order">Ordenar Por</label>
+              <select id="main-order" class="form-control" ng-model="sorting" name="sorting"
+                      ng-options="sortingOption.description for sortingOption in enums.sorting"
+                      ng-change="updatePets();">
+                <option value="">Ordenar Por</option>
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row" ng-if="loader">
+        <div class="col-xs-12 text-center">
+          <i class="fa fa-spin fa-refresh fa-5x"></i>
+        </div>
+      </div>
+      <div class="row" ng-if="!loader && pets.count === 0">
+        <div class="col-xs-12">
+          <div alert type='info'>
+            Nenhum pet encontrado!
+          </div>
+        </div>
+      </div>
+      <div ng-show="!loader" class="row" masonry preserve-order>
+        <div class="animal masonry-brick col-xs-12 col-sm-6 col-md-4" ng-repeat="pet in pets.resources">
+          <div class="thumbnail">
+            <a
+              tooltip="{{ (isLoggedIn()) ? (isFavorited(pet)) ? 'Desfavoritar' : 'Favoritar' : 'Você precisa estar logado para favoritar um pet'}}"
+              tooltip-placement="left" ng-click="toggleFavoritePet(pet)" class="fa-stack fa-2x favorite-link"
+              style="cursor: pointer;">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <span ng-class="{'favorited': isFavorited(pet), 'unfavorited' : !isFavorited(pet)}"><i
+                ng-class="{'fa-refresh fa-spin': pet.favoritedLoader, 'fa-heart': !pet.favoritedLoader, 'fa' : true, 'fa-stack-1x': true}"></i></span>
+            </a>
+            <a ui-sref="pet({id: pet.id})">
+              <img class="img-responsive" ng-src="{{ pet.profileImage}}" alt="{{ pet.name}}"
+                   style="width: 100% !important; height: auto !important;">
+            </a>
+
+            <div class="caption">
+              <h3>{{ pet.name}}</h3>
+
+              <div>
+                <spam ng-repeat="breed in pet.breeds">{{ breed.name + ((!$last) ? ' & ' : '')}}</spam>
+              </div>
+              <div>
+                {{ pet.age}} - {{ pet.gender}}
+              </div>
+              <div>
+                <i class="fa fa-map-marker"></i>
+                {{ pet.organization.address.city.name}} - {{ pet.organization.address.city.state.acronym}}
+              </div>
+            </div>
+            <div class="actions btn-group" L>
+              <a ui-sref="pet({id: pet.id})" class="btn btn-info" scroll-to-top>
+                <i class="fa fa-eye"></i>
+                Ver Perfil
+              </a>
+              <a class="btn btn-facebook" share="{{ ('/pet/' + pet.id)}}">
+                <i class="fa fa-facebook"></i>
+                Compartilhar
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <pagination
+            scroll-to-top
+            ng-model="page"
+            total-items="pets.count"
+            items-per-page="limit"
+            max-size="5"
+            class='pagination-lg'
+            boundary-links="true"
+            previous-text="&lsaquo;"
+            next-text="&rsaquo;"
+            first-text="&laquo;"
+            last-text="&raquo;"
+            rotate="true"></pagination>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+      <div class="panel-group filter-side" id="filter-side-group">
+        <div class="panel panel-filter">
+          <div class="panel-heading">
+            <div class="panel-title">
+              <span>Filtros</span>
+            </div>
+          </div>
+          <div id="filters-basic">
+            <div class="panel-body">
+              <form ng-submit="filter()">
+                <div class="form-group">
+                  <label class="sr-only" for="main-size">Tamanho</label>
+                  <select ng-change="updatePets()" class="form-control" id="main-size" ng-model="size" name="size"
+                          ng-options="size.description for size in enums.size">
+                    <option value="">Tamanho</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="sr-only" for="main-age">Idade</label>
+                  <select ng-change="updatePets()" class="form-control" id="main-age" ng-model="age" name="age"
+                          ng-options="age.description for age in enums.age">
+                    <option value="">Idade</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="sr-only" for="main-gender">Gênero</label>
+                  <select ng-change="updatePets()" class="form-control" id="main-gender" ng-model="gender" name="gender"
+                          ng-options="gender.description for gender in enums.gender">
+                    <option value="">Gênero</option>
+                  </select>
+                </div>
+                <button type="button" class="btn btn-info btn-block hidden-lg hidden-md" data-offcanvas>Esconder <span
+                  class="hidden-xs">Filtros</span></button>
+                <button type="button" class="btn btn-warning btn-block" ng-click="clearFilters()">Limpar <span
+                  class="hidden-xs">Filtros</span></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

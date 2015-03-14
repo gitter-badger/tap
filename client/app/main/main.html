@@ -1,4 +1,117 @@
 <div id="main">
-  MAIN
+  <nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle navbar-inverse" ng-init="menuIsCollapsed = true"
+                ng-click="menuIsCollapsed = !menuIsCollapsed">
+          <span class="sr-only">Alterar navegação</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" ui-sref="main.home">
+          <span class="fa fa-paw fa-lg"></span>
+          Todas as Patas
+        </a>
+      </div>
+      <div id="navbar" class="navbar-collapse" collapse="menuIsCollapsed">
+        <ul class="nav navbar-nav navbar-right text-right">
+          <li ng-show="isAdmin()">
+            <a class="inverse" ui-sref="admin.dashboard">Admin</a>
+          </li>
+          <li ng-show="getCurrentUser()._id" ng-class="{active: menuIsActive('main.pet-listener')}">
+            <a class="inverse" ui-sref="main.pet-listener">Criar Ouvinte</a>
+          </li>
+          <li class="dropdown" ng-show="getCurrentUser()._id"
+              ng-class="{active: menuIsActive(['main.profile', 'main.favorite', 'main.question-message', 'main.adoption-message'])}">
+            <a style="cursor: pointer;" class="dropdown-toggle inverse">{{ getCurrentUser().email}} <span
+              class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li class="text-right"><a ui-sref="main.profile">Perfil</a></li>
+              <li class="text-right"><a ui-sref="main.favorite">Favoritos</a></li>
+              <li class="text-right"><a ui-sref="main.question-message">Perguntas</a></li>
+              <li class="text-right"><a ui-sref="main.adoption-message">Adoções</a></li>
+            </ul>
+          </li>
+          <li ng-hide="isLoggedIn()">
+            <a class="inverse text-right" ng-click="login()">Entrar</a>
+          </li>
+          <li ng-show="isLoggedIn()">
+            <a class="inverse text-right" href="#" ng-click="logout()">Sair</a>
+          </li>
+        </ul>
+        <form class="navbar-form navbar-right text-right">
+          <input class="form-control" placeholder="Buscar..." type="text">
+        </form>
+      </div>
+    </div>
+  </nav>
+
   <div ui-view=""></div>
+
+  <footer>
+    <div class="container-fluid">
+      <div class="footer-holder">
+        <div class="row">
+          <div class="col-xs-12 col-sm-4">
+            <p>© 2014 Todasaspatas.com</p>
+          </div>
+          <div class="col-xs-12 col-sm-8">
+            <div class="pull-right">
+              <ul class='footer-links inline list-inline'>
+                <li>
+                  <a ui-sref="organization" scroll-to-top>Organizações</a>
+                </li>
+                <li>
+                  <a ui-sref="text({type: 'aboutUs'})" scroll-to-top>Sobre</a>
+                </li>
+                <li>
+                  <a ui-sref="text({type: 'privacyPolicy'})" scroll-to-top>Privacidade</a>
+                </li>
+                <li>
+                  <a ui-sref="text({type: 'termsOfService'})" scroll-to-top>Termos de uso</a>
+                </li>
+                <li>
+                  <a href="https://github.com/fabioelizandro/todas-as-patas-app" target="_blank">Código fonte</a>
+                </li>
+                <li>
+                  <a href="https://github.com/fabioelizandro/todas-as-patas-app/issues" target="_blank">Reportar Bug</a>
+                </li>
+              </ul>
+              <ul class='footer-social-links inline list-inline pull-right'>
+                <li>
+                  <a href="https://www.facebook.com/pages/Todas-as-Patas/799598340104478"
+                     class="fa-stack fa-lg facebook">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://plus.google.com/b/100267514698257523669/100267514698257523669/posts?hl=pt-BR&service=PLUS"
+                    class="fa-stack fa-lg google">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-google fa-stack-1x fa-inverse"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="http://instagram.com/todasaspatas" class="fa-stack fa-lg instagram">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://github.com/fabioelizandro/todas-as-patas-app" class="fa-stack fa-lg github">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-2x fa-inverse"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
 </div>
