@@ -4,7 +4,7 @@ var path = require('path');
 var _ = require('lodash');
 
 function requiredProcessEnv(name) {
-  if(!process.env[name]) {
+  if (!process.env[name]) {
     throw new Error('You must set the ' + name + ' environment variable');
   }
   return process.env[name];
@@ -33,7 +33,7 @@ var all = {
   },
 
   // List of user roles
-  userRoles: ['guest', 'user', 'admin', 'root'],
+  userRoles: ['guest', 'user', 'org', 'admin', 'root'],
 
   admin: {
     name: process.env.ADMIN_NAME || 'Admin',
@@ -68,15 +68,15 @@ var all = {
   },
 
   facebook: {
-    clientID:     process.env.FACEBOOK_ID || 'id',
+    clientID: process.env.FACEBOOK_ID || 'id',
     clientSecret: process.env.FACEBOOK_SECRET || 'secret',
-    callbackURL:  (process.env.DOMAIN || '') + '/auth/facebook/callback'
+    callbackURL: (process.env.DOMAIN || '') + '/auth/facebook/callback'
   },
 
   google: {
-    clientID:     process.env.GOOGLE_ID || 'id',
+    clientID: process.env.GOOGLE_ID || 'id',
     clientSecret: process.env.GOOGLE_SECRET || 'secret',
-    callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
+    callbackURL: (process.env.DOMAIN || '') + '/auth/google/callback'
   }
 };
 

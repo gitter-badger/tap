@@ -3,7 +3,9 @@
 angular.module('tapApp')
   .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
     var currentUser = {};
-    if($cookieStore.get('token')) {
+    var roles = ['guest', 'user', 'org', 'admin', 'root'];
+
+    if ($cookieStore.get('token')) {
       currentUser = User.get();
     }
 
@@ -16,7 +18,7 @@ angular.module('tapApp')
        * @param  {Function} callback - optional
        * @return {Promise}
        */
-      login: function(user, callback) {
+      login: function (user, callback) {
         var cb = callback || angular.noop;
         var deferred = $q.defer();
 
@@ -24,17 +26,17 @@ angular.module('tapApp')
           email: user.email,
           password: user.password
         }).
-        success(function(data) {
-          $cookieStore.put('token', data.token);
-          currentUser = User.get();
-          deferred.resolve(data);
-          return cb();
-        }).
-        error(function(err) {
-          this.logout();
-          deferred.reject(err);
-          return cb(err);
-        }.bind(this));
+          success(function (data) {
+            $cookieStore.put('token', data.token);
+            currentUser = User.get();
+            deferred.resolve(data);
+            return cb();
+          }).
+          error(function (err) {
+            this.logout();
+            deferred.reject(err);
+            return cb(err);
+          }.bind(this));
 
         return deferred.promise;
       },
@@ -44,7 +46,7 @@ angular.module('tapApp')
        *
        * @param  {Function}
        */
-      logout: function() {
+      logout: function () {
         $cookieStore.remove('token');
         currentUser = {};
       },
@@ -56,16 +58,16 @@ angular.module('tapApp')
        * @param  {Function} callback - optional
        * @return {Promise}
        */
-      createUser: function(user, callback) {
+      createUser: function (user, callback) {
         var cb = callback || angular.noop;
 
         return User.save(user,
-          function(data) {
+          function (data) {
             $cookieStore.put('token', data.token);
             currentUser = User.get();
             return cb(user);
           },
-          function(err) {
+          function (err) {
             this.logout();
             return cb(err);
           }.bind(this)).$promise;
@@ -79,15 +81,15 @@ angular.module('tapApp')
        * @param  {Function} callback    - optional
        * @return {Promise}
        */
-      changePassword: function(oldPassword, newPassword, callback) {
+      changePassword: function (oldPassword, newPassword, callback) {
         var cb = callback || angular.noop;
 
-        return User.changePassword({ id: currentUser._id }, {
+        return User.changePassword({id: currentUser._id}, {
           oldPassword: oldPassword,
           newPassword: newPassword
-        }, function(user) {
+        }, function (user) {
           return cb(user);
-        }, function(err) {
+        }, function (err) {
           return cb(err);
         }).$promise;
       },
@@ -97,7 +99,7 @@ angular.module('tapApp')
        *
        * @return {Object} user
        */
-      getCurrentUser: function() {
+      getCurrentUser: function () {
         return currentUser;
       },
 
@@ -106,21 +108,21 @@ angular.module('tapApp')
        *
        * @return {Boolean}
        */
-      isLoggedIn: function() {
+      isLoggedIn: function () {
         return currentUser.hasOwnProperty('role');
       },
 
       /**
        * Waits for currentUser to resolve before checking if user is logged in
        */
-      isLoggedInAsync: function(cb) {
-        if(currentUser.hasOwnProperty('$promise')) {
-          currentUser.$promise.then(function() {
+      isLoggedInAsync: function (cb) {
+        if (currentUser.hasOwnProperty('$promise')) {
+          currentUser.$promise.then(function () {
             cb(true);
-          }).catch(function() {
+          }).catch(function () {
             cb(false);
           });
-        } else if(currentUser.hasOwnProperty('role')) {
+        } else if (currentUser.hasOwnProperty('role')) {
           cb(true);
         } else {
           cb(false);
@@ -132,14 +134,23 @@ angular.module('tapApp')
        *
        * @return {Boolean}
        */
-      isAdmin: function() {
+      isAdmin: function () {
         return currentUser.role === 'admin' || currentUser.role === 'root';
+      },
+
+      /**
+       * Checks if the user role meets the minimum requirements of the route
+       */
+      hasRole: function (roleRequired) {
+        if (!roleRequired) throw new Error('Required role needs to be set');
+
+        return (roles.indexOf(currentUser.role) >= roles.indexOf(roleRequired));
       },
 
       /**
        * Get auth token
        */
-      getToken: function() {
+      getToken: function () {
         return $cookieStore.get('token');
       }
     };

@@ -6,7 +6,7 @@ angular.module('tapApp')
       .state('admin.dashboard', {
         url: '/dashboard',
         role: function ($injector) {
-          return $injector.get('Auth').isAdmin();
+          return $injector.get('Auth').hasRole('org');
         },
         views: {
           '': {
