@@ -42,7 +42,6 @@ angular.module('tapApp', [
       // Intercept 401s and redirect you to login
       responseError: function (response) {
         if (response.status === 401) {
-          var $state = $injector.get('$state');
           $injector.get('$state').go('main.home');
           $injector.get('LoginModal').open();
           // remove any stale tokens
