@@ -47,6 +47,9 @@
                       <p class="help-block" ng-show="form.email.$error.required && form.email.$dirty">
                         E-mail obrigatório
                       </p>
+                      <p class="help-block" ng-show="form.email.$error.mongoose && form.email.$dirty">
+                        {{ errors.email }}
+                      </p>
                     </div>
                   </div>
                   <div ng-if="!user._id" class="form-group" ng-class="{
