@@ -43,6 +43,9 @@
           <li data-to-top ng-class="{active: menuIsActive('admin.media')}">
             <a ui-sref="admin.media"><i class="fa fa-fw fa-folder-open"></i> Mídias</a>
           </li>
+          <li data-to-top ng-class="{active: menuIsActive('admin.text')}">
+            <a ui-sref="admin.text"><i class="fa fa-fw fa-font"></i> Textos</a>
+          </li>
           <li data-to-top ng-class="{active: menuIsActive('admin.thing')}" ng-if="getCurrentUser().role === 'root'">
             <a ui-sref="admin.thing"><i class="fa fa-fw fa-table"></i> Coisas</a>
           </li>

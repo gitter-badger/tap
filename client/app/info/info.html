@@ -1,0 +1,37 @@
+<div class="container-fluid container-view">
+  <div class="row">
+    <div class="col-xs-12">
+      <ol class="breadcrumb">
+        <li><a ui-sref="main({query: null})">Pets</a></li>
+        <li class="active">{{texts[type].title}}</li>
+      </ol>
+    </div>
+  </div>
+  <div class="row row-text">
+    <div class="col-xs-12 col-sm-8 col-text">
+      <h1>{{ texts[type].title}}</h1>
+
+      <div ng-bind-html="texts[type].body"></div>
+    </div>
+    <div class="col-xs-12 col-sm-4 col-nav">
+      <ul class="nav nav-pills nav-stacked">
+        <li ng-class="{'active': type === 'about'}">
+          <a href="" ng-click="goInfo('about')">Sobre</a>
+        </li>
+        <li ng-class="{'active': type === 'privacyPolicy'}">
+          <a href="" ng-click="goInfo('privacyPolicy')">Privacidade</a>
+        </li>
+        <li ng-class="{'active': type === 'termsOfService'}">
+          <a href="" ng-click="goInfo('termsOfService')">Termos de uso</a>
+        </li>
+        <li>
+          <a href="https://github.com/fabioelizandro/tap" target="_blank">Código fonte</a>
+        </li>
+        <li>
+          <a href="https://github.com/fabioelizandro/tap/issues" target="_blank">Reportar Bug</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>

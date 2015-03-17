@@ -6,6 +6,15 @@ angular.module('tapApp')
         id: '@_id'
       },
       {
-        update: {method: 'PUT'}
+        update: {
+          method: 'PUT'
+        },
+        queryByType: {
+          method: 'GET',
+          isArray: false,
+          params: {
+            controller: 'by-type'
+          }
+        }
       });
   });

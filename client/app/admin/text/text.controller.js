@@ -5,11 +5,14 @@ angular.module('tapApp')
     $scope.texts = Text.query();
     $scope.text = {};
     $scope.typeEnum = [{
-      label: 'Contato',
-      id: 'contact'
+      label: 'Política de privacidade',
+      id: 'privacyPolicy'
     }, {
-      label: 'Sobre mim',
+      label: 'Sobre',
       id: 'about'
+    }, {
+      label: 'Termos de uso',
+      id: 'termsOfService'
     }];
 
     $scope.edit = function (text) {

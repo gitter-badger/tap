@@ -8,19 +8,8 @@
 var Thing = require('../api/thing/thing.model');
 var File = require('../api/file/file.model');
 var Folder = require('../api/folder/folder.model');
-var Text = require('../api/text/text.model');
 
 var User = require('../api/user/user.model');
-
-Text.find({}).remove(function () {
-  Text.create({
-    title: 'Contato',
-    body: 'Rua da Caju, 433, Tijucas - SC 88200-000',
-    type: 'contact'
-  }, function () {
-    console.log('Cadastrando textos...');
-  });
-});
 
 Thing.find({}).remove(function() {
   Thing.create({
