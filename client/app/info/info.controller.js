@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('tapApp')
-  .controller('InfoCtrl', function ($scope, $stateParams, $state, $location) {
+  .controller('InfoCtrl', function ($scope, $stateParams) {
     $scope.type = $stateParams.type;
   });

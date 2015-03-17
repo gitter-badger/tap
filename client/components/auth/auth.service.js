@@ -142,7 +142,9 @@ angular.module('tapApp')
        * Checks if the user role meets the minimum requirements of the route
        */
       hasRole: function (roleRequired) {
-        if (!roleRequired) throw new Error('Required role needs to be set');
+        if (!roleRequired) {
+          return;
+        }
 
         return (roles.indexOf(currentUser.role) >= roles.indexOf(roleRequired));
       },
