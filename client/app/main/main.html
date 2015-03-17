@@ -19,9 +19,6 @@
           <li ng-show="isAdmin()">
             <a class="inverse" ui-sref="admin.dashboard">Admin</a>
           </li>
-          <li ng-show="getCurrentUser()._id" ng-class="{active: menuIsActive('main.pet-listener')}">
-            <a class="inverse" ui-sref="main.pet-listener">Criar Ouvinte</a>
-          </li>
           <li class="dropdown" ng-show="getCurrentUser()._id"
               ng-class="{active: menuIsActive(['main.profile', 'main.favorite', 'main.question-message', 'main.adoption-message'])}">
             <a style="cursor: pointer;" class="dropdown-toggle inverse">{{ getCurrentUser().email}} <span
