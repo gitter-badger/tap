@@ -13,8 +13,17 @@ angular.module('tapApp', [
   'angularFileUpload',
   'btford.socket-io',
   'ui.router',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'uiGmapgoogle-maps'
 ])
+  .config(function (uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+      //    key: 'your api key',
+      v: '3.17',
+      libraries: 'places',
+      language: 'pt'
+    });
+  })
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
       .when('/admin', function ($state) {
@@ -107,12 +116,12 @@ angular.module('tapApp', [
       });
     });
     $rootScope.$on('$stateChangeSuccess', function (event, current) {
-      SEO.title(current.title || 'tapApp');
+      SEO.title(current.title || 'TAP');
       SEO.ogUrl(current.ogUrl || '/');
-      SEO.ogTitle(current.ogTitle || 'tapApp');
-      SEO.ogDescription(current.ogDescription || 'tapApp');
+      SEO.ogTitle(current.ogTitle || 'TAP');
+      SEO.ogDescription(current.ogDescription || 'TAP');
       if ($window.ga) {
-        $window.ga('set', {page: $location.url(), title: (current.title || 'tapApp')});
+        $window.ga('set', {page: $location.url(), title: (current.title || 'TAP')});
         $window.ga('send', 'pageview');
       }
 

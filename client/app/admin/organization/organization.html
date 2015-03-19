@@ -1,0 +1,224 @@
+<div id="page-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">
+          Organizações
+        </h1>
+        <ol class="breadcrumb">
+          <li><a ui-sref="admin.dashboard">Área de trabalho</a></li>
+          <li class="active">Organizações</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <section class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <i class="fa fa-edit fa-fw"></i>
+              Organização
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <form class="form-horizontal" name="form" ng-submit="save(form)" novalidate>
+                  <div class="form-group"
+                       ng-class="{ 'has-success': form.name.$valid && form.name.$dirty, 'has-error': form.name.$invalid && form.name.$dirty }">
+                    <label for="name" class="col-xs-2">Nome</label>
+
+                    <div class="col-xs-10">
+                      <input focus-if='true' type="text" id='name' name="name" class="form-control"
+                             ng-model="organization.name" required/>
+
+                      <p class="help-block" ng-show="form.name.$error.required && form.name.$dirty">
+                        Nome é obrigatório
+                      </p>
+                    </div>
+                  </div>
+                  <div class="form-group"
+                       ng-class="{ 'has-success': form.email.$valid && form.email.$dirty, 'has-error': form.email.$invalid && form.email.$dirty }">
+                    <label for="email" class="col-xs-2">E-mail</label>
+
+                    <div class="col-xs-10">
+                      <input type="email" id='email' name="email" class="form-control"
+                             ng-model="organization.email" required/>
+
+                      <p class="help-block" ng-show="form.email.$error.required && form.email.$dirty">
+                        E-mail é obrigatório
+                      </p>
+                    </div>
+                  </div>
+                  <div class="form-group"
+                       ng-class="{ 'has-success': form.phone.$valid && form.phone.$dirty, 'has-error': form.phone.$invalid && form.phone.$dirty }">
+                    <label for="phone" class="col-xs-2">Telefone</label>
+
+                    <div class="col-xs-10">
+                      <input type="number" id='phone' name="phone" class="form-control"
+                             ng-model="organization.phone" required ng-minlength="10" ng-maxlength="11"/>
+
+                      <p class="help-block" ng-show="form.phone.$error.required && form.phone.$dirty">
+                        Telefone é obrigatório
+                      </p>
+
+                      <p class="help-block" ng-show="form.phone.$error.number && form.phone.$dirty">
+                        Não é um número válido
+                      </p>
+
+                      <p class="help-block"
+                         ng-show="(form.phone.$error.minlength || form.phone.$error.maxlength) && form.phone.$dirty">
+                        O telefone deve conter entre 10 à 11 dígitos. Ex: 48 9999 9999
+                      </p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-xs-2">Endereço</label>
+
+                    <div class="col-xs-4"
+                         ng-class="{ 'has-success': form.state.$valid && form.state.$dirty, 'has-error': form.state.$invalid && form.state.$dirty }">
+                      <input type="text" id='state' name="state" class="form-control"
+                             ng-model="organization.address.state" required placeholder="Estado"/>
+
+                      <p class="help-block" ng-show="form.state.$error.required && form.state.$dirty">
+                        Estado é obrigatório
+                      </p>
+                    </div>
+                    <div class="col-xs-6"
+                         ng-class="{ 'has-success': form.city.$valid && form.city.$dirty, 'has-error': form.city.$invalid && form.city.$dirty }">
+                      <input type="text" id='city' name="city" class="form-control"
+                             ng-model="organization.address.city" required placeholder="Cidade"/>
+
+                      <p class="help-block" ng-show="form.city.$error.required && form.city.$dirty">
+                        Cidade é obrigatório
+                      </p>
+                    </div>
+                    <div class="col-xs-6 col-xs-offset-2"
+                         ng-class="{ 'has-success': form.street.$valid && form.street.$dirty, 'has-error': form.street.$invalid && form.street.$dirty }">
+                      <input type="text" id='street' name="street" class="form-control"
+                             ng-model="organization.address.street" required placeholder="Rua"/>
+
+                      <p class="help-block" ng-show="form.street.$error.required && form.street.$dirty">
+                        Rua é obrigatório
+                      </p>
+                    </div>
+                    <div class="col-xs-4"
+                         ng-class="{ 'has-success': form.number.$valid && form.number.$dirty, 'has-error': form.number.$invalid && form.number.$dirty }">
+                      <input type="text" id='number' name="number" class="form-control"
+                             ng-model="organization.address.number" placeholder="Número"/>
+                    </div>
+                    <div class="col-xs-4 col-xs-offset-2"
+                         ng-class="{ 'has-success': form.zipCode.$valid && form.zipCode.$dirty, 'has-error': form.zipCode.$invalid && form.zipCode.$dirty }">
+                      <input type="number" id='zipCode' name="zipCode" class="form-control"
+                             ng-model="organization.address.zipCode" required placeholder="CEP"/>
+
+                      <p class="help-block" ng-show="form.zipCode.$error.required && form.zipCode.$dirty">
+                        CEP é obrigatório
+                      </p>
+                    </div>
+                    <div class="col-xs-6"
+                         ng-class="{ 'has-success': form.complement.$valid && form.complement.$dirty, 'has-error': form.complement.$invalid && form.complement.$dirty }">
+                      <input type="text" id='complement' name="complement" class="form-control"
+                             ng-model="organization.address.complement" placeholder="Complemento"/>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-xs-10 col-xs-offset-2">
+                      <script type="text/ng-template" id="searchbox.tpl.html">
+                        <input onkeypress="return event.keyCode != 13;"
+                               class="gmap-searchbox gmap-searchbox-sm gmap-searchbox-top" type="text"
+                               placeholder="Procure um local">
+                      </script>
+                      <ui-gmap-google-map center="mapCenter" zoom="14" draggable="true" options="{scrollwheel: false}"
+                                          control="mapControl">
+                        <ui-gmap-search-box data-template="'searchbox.tpl.html'" data-position="'top-left'"
+                                            data-events="{places_changed: mapPlaceChanged}"></ui-gmap-search-box>
+                        <ui-gmap-marker idKey="'1'" coords='mapCenter' options='{draggable: true}'></ui-gmap-marker>
+                      </ui-gmap-google-map>
+                      <p class="help-block" ng-show="queryParams.lat || queryParams.lng">Query: {{queryParams.lat + ' ,
+                        '
+                        + queryParams.lng}}</p>
+
+                      <p class="help-block" ng-show="mapCenter">{{mapCenter.latitude}}, {{mapCenter.longitude}}</p>
+                    </div>
+                  </div>
+
+                  <div class="form-group" ng-class="{ 'has-success': form.info.$valid && form.info.$dirty,
+                                'has-error': form.info.$invalid && form.info.$dirty }">
+                    <label for="info" class="col-xs-2">Informativo</label>
+
+                    <div class="col-xs-10">
+                      <textarea name="info" id="info" class="form-control" ng-model="organization.info"
+                                rows="10"></textarea>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button ng-disabled="form.$invalid || submitted === true" class="btn btn-primary" type="submit">
+                        {{ ((organization._id) ? 'Atualizar' : 'Cadastrar')}}
+                      </button>
+                      <a class="btn btn-default" ng-click="clear(form)" ng-if="organization._id">
+                        Limpar
+                      </a>
+                      <a class="btn btn-danger" ng-click="delete(organization, form)" ng-if="organization._id">
+                        Deletar
+                      </a>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <i class="fa fa-list fa-fw"></i>
+              Organizações cadastradas
+            </h3>
+          </div>
+          <div class='container-grid'>
+            <table tr-ng-grid="" items="organizations" locale='pt-br' page-items="10" selection-mode='none'>
+              <thead>
+              <tr>
+                <th field-name="name" display-name="Nome" enable-filtering="true" enable-sorting="true">
+                </th>
+                <th field-name="email" display-name="E-mail" enable-filtering="true" enable-sorting="true">
+                </th>
+                <th field-name="phone" display-name="Telefone" display-format="phone" enable-filtering="true"
+                    enable-sorting="true">
+                </th>
+                <th class='grid-actions'>
+                  <div>
+                    Ações
+                  </div>
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td class='grid-actions'>
+                  <div class="btn-group btn-group-sm">
+                    <button tooltip="Editar" class="btn btn-primary" ng-click="edit(gridItem)" to-top>
+                      <i class='fa fa-edit'></i>
+                    </button>
+                    <button tooltip="Deletar" class="btn btn-danger" ng-click="delete(gridItem, form)">
+                      <i class='fa fa-remove'></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

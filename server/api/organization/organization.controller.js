@@ -1,82 +1,73 @@
-/**
- * Using Rails-like standard naming convention for endpoints.
- * GET     /things              ->  index
- * POST    /things              ->  create
- * GET     /things/:id          ->  show
- * PUT     /things/:id          ->  update
- * DELETE  /things/:id          ->  destroy
- */
-
 'use strict';
 
 var _ = require('lodash');
-var Thing = require('./thing.model');
+var Organization = require('./organization.model');
 
-// Get list of things
+// Get list of organizations
 exports.index = function (req, res) {
-  Thing.find({deleted: false}, function (err, things) {
+  Organization.find({deleted: false}, function (err, organizations) {
     if (err) {
       return handleError(res, err);
     }
-    return res.status(200).json(things);
+    return res.status(200).json(organizations);
   });
 };
 
-// Get a single thing
+// Get a single organization
 exports.show = function (req, res) {
-  Thing.findOne({_id: req.params.id, deleted: false}, function (err, thing) {
+  Organization.findOne({_id: req.params.id, deleted: false}, function (err, organization) {
     if (err) {
       return handleError(res, err);
     }
-    if (!thing) {
+    if (!organization) {
       return res.status(404).send('Not Found');
     }
-    return res.json(thing);
+    return res.json(organization);
   });
 };
 
-// Creates a new thing in the DB.
+// Creates a new organization in the DB.
 exports.create = function (req, res) {
-  Thing.create(req.body, function (err, thing) {
+  Organization.create(req.body, function (err, organization) {
     if (err) {
       return handleError(res, err);
     }
-    return res.status(201).json(thing);
+    return res.status(201).json(organization);
   });
 };
 
-// Updates an existing thing in the DB.
+// Updates an existing organization in the DB.
 exports.update = function (req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Thing.findOne({_id: req.params.id, deleted: false}, function (err, thing) {
+  Organization.findOne({_id: req.params.id, deleted: false}, function (err, organization) {
     if (err) {
       return handleError(res, err);
     }
-    if (!thing) {
+    if (!organization) {
       return res.status(404).send('Not Found');
     }
-    var updated = _.merge(thing, req.body);
+    var updated = _.merge(organization, req.body);
     updated.save(function (err) {
       if (err) {
         return handleError(res, err);
       }
-      return res.status(200).json(thing);
+      return res.status(200).json(organization);
     });
   });
 };
 
-// Deletes a thing from the DB.
+// Deletes a organization from the DB.
 exports.destroy = function (req, res) {
-  Thing.findById(req.params.id, function (err, thing) {
+  Organization.findById(req.params.id, function (err, organization) {
     if (err) {
       return handleError(res, err);
     }
-    if (!thing) {
+    if (!organization) {
       return res.status(404).send('Not Found');
     }
-    thing.delete(function (err) {
+    organization.delete(function (err) {
       if (err) {
         return handleError(res, err);
       }

@@ -3,14 +3,14 @@
 angular.module('tapApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('main.home', {
-        url: '/',
+      .state('main.organization', {
+        url: '/organizacoes',
         title: 'TAP',
         reloadOnSearch: false,
         views: {
           '': {
-            templateUrl: 'app/home/home.html',
-            controller: 'HomeCtrl'
+            templateUrl: 'app/organization/organization.html',
+            controller: 'OrganizationCtrl'
           }
         }
       });

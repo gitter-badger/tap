@@ -1,0 +1,27 @@
+<div class="container-fluid container-view">
+  <div class="row">
+    <div class="col-xs-12">
+      <ol class="breadcrumb">
+        <li><a ui-sref="main.home()">Pets</a></li>
+        <li class="active">Organizações</li>
+      </ol>
+    </div>
+  </div>
+  <div class="row row-inversed row-page">
+    <div class="col-xs-12">
+      <table tr-ng-grid="" items="organizations" locale='pt-br' page-items="10" selection-mode='none'>
+        <thead>
+        <tr>
+          <th field-name="name" display-name="Nome" enable-filtering="true" enable-sorting="true">
+          </th>
+          <th field-name="email" display-name="E-mail" enable-filtering="true" enable-sorting="true">
+          </th>
+          <th field-name="phone" display-name="Telefone" display-format="phone" enable-filtering="true"
+              enable-sorting="true">
+          </th>
+        </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
