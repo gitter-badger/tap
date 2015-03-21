@@ -5,6 +5,7 @@ angular.module('tapApp')
     $scope.ui = UI;
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.isAdmin = Auth.isAdmin;
+    $scope.hasRole = Auth.hasRole;
     $scope.getCurrentUser = Auth.getCurrentUser;
     $scope.logout = function () {
       Auth.logout();

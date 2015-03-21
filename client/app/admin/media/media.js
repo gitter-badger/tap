@@ -6,7 +6,7 @@ angular.module('tapApp')
       .state('admin.media', {
         url: '/media?id&show',
         role: function ($injector) {
-          return $injector.get('Auth').isAdmin();
+          return $injector.get('Auth').hasRole('admin');
         },
         reloadOnSearch: false,
         views: {

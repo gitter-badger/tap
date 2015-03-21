@@ -165,6 +165,10 @@
                       <a class="btn btn-danger" ng-click="delete(organization, form)" ng-if="organization._id">
                         Deletar
                       </a>
+                      <a class="btn btn-warning" ng-if="organization._id"
+                         ui-sref="admin.organization-user({organization : organization._id})" to-top>
+                        Usuários
+                      </a>
                     </div>
                   </div>
                 </form>
@@ -204,7 +208,11 @@
               <tbody>
               <tr>
                 <td class='grid-actions'>
-                  <div class="btn-group btn-group-sm">
+                  <div class="btn-group btn-group-sm" style="width: 100px;">
+                    <a tooltip="Usuários" class="btn btn-warning"
+                       ui-sref="admin.organization-user({organization : gridItem._id})" to-top>
+                      <i class='fa fa-user'></i>
+                    </a>
                     <button tooltip="Editar" class="btn btn-primary" ng-click="edit(gridItem)" to-top>
                       <i class='fa fa-edit'></i>
                     </button>

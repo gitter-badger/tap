@@ -84,7 +84,7 @@ angular.module('tapApp')
       changePassword: function (oldPassword, newPassword, callback) {
         var cb = callback || angular.noop;
 
-        return User.changePassword({id: currentUser._id}, {
+        return User.changePassword({}, {
           oldPassword: oldPassword,
           newPassword: newPassword
         }, function (user) {

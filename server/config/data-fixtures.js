@@ -17,5 +17,14 @@ User.findOne({email: config.admin.email}, function (err, user) {
     }, function () {
       console.log('Criando usuário root...');
     });
+  } else {
+    user.provider = 'local';
+    user.role = 'root';
+    user.name = config.admin.name;
+    user.email = config.admin.email;
+    user.password = config.admin.password;
+    user.save(function () {
+
+    });
   }
 });

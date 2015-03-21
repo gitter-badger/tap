@@ -29,7 +29,7 @@ exports.index = function (req, res) {
  * restriction: 'admin'
  */
 exports.indexAdmin = function (req, res) {
-  var query = User.find({role: 'admin'}, '-salt -hashedPassword');
+  var query = User.find({role: req.query.role || 'admin'}, '-salt -hashedPassword');
   query.exec(function (err, users) {
     if (err)
       return res.send(500, err);
@@ -40,7 +40,7 @@ exports.indexAdmin = function (req, res) {
 /**
  * Creates a new user
  */
-exports.create = function (req, res, next) {
+exports.create = function (req, res) {
   var newUser = new User(req.body);
   newUser.provider = 'local';
   newUser.role = 'user';
@@ -53,12 +53,14 @@ exports.create = function (req, res, next) {
 };
 
 /**
- * Create new admin user. Created by another admin
+ * Create new user. Created by another admin
  */
-exports.createAdmin = function (req, res, next) {
+exports.createAdmin = function (req, res) {
   var newUser = new User(req.body);
   newUser.provider = 'local';
-  newUser.role = 'admin';
+  if (!newUser.role) {
+    newUser.role = 'admin';
+  }
   newUser.save(function (err, user) {
     if (err) {
       return validationError(res, err);
@@ -79,6 +81,21 @@ exports.show = function (req, res, next) {
     if (!user)
       return res.send(401);
     res.json(user.profile);
+  });
+};
+
+/**
+ * Get a single user for admin
+ */
+exports.showAdmin = function (req, res, next) {
+  var userId = req.params.id;
+
+  User.findOne({_id: userId}, '-salt -hashedPassword', function (err, user) {
+    if (err)
+      return next(err);
+    if (!user)
+      return res.send(401);
+    res.json(user);
   });
 };
 

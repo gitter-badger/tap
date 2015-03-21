@@ -6,7 +6,7 @@ angular.module('tapApp')
       .state('admin.thing', {
         url: '/thing?id',
         role: function ($injector) {
-          return $injector.get('Auth').isAdmin();
+          return $injector.get('Auth').hasRole('admin');
         },
         reloadOnSearch: false,
         views: {

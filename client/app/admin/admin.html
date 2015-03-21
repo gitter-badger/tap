@@ -34,22 +34,23 @@
       </ul>
       <div class="collapse navbar-collapse navbar-ex1-collapse" collapse="menuIsCollapsed">
         <ul class="nav navbar-nav side-nav">
-          <li data-to-top ng-class="{active: menuIsActive('admin.dashboard')}">
+          <li data-to-top ng-class="{active: menuIsActive('admin.dashboard')}" ng-if="hasRole('org')">
             <a ui-sref="admin.dashboard"><i class="fa fa-fw fa-dashboard"></i> Área de Trabalho</a>
           </li>
-          <li data-to-top ng-class="{active: menuIsActive('admin.user')}">
+          <li data-to-top ng-class="{active: menuIsActive('admin.user')}" ng-if="hasRole('admin')">
             <a ui-sref="admin.user"><i class="fa fa-fw fa-users"></i> Usuários</a>
           </li>
-          <li data-to-top ng-class="{active: menuIsActive('admin.media')}">
+          <li data-to-top ng-class="{active: menuIsActive('admin.media')}" ng-if="hasRole('admin')">
             <a ui-sref="admin.media"><i class="fa fa-fw fa-folder-open"></i> Mídias</a>
           </li>
-          <li data-to-top ng-class="{active: menuIsActive('admin.text')}">
+          <li data-to-top ng-class="{active: menuIsActive('admin.text')}" ng-if="hasRole('admin')">
             <a ui-sref="admin.text"><i class="fa fa-fw fa-font"></i> Textos</a>
           </li>
-          <li data-to-top ng-class="{active: menuIsActive('admin.organization')}">
+          <li data-to-top ng-class="{active: menuIsActive(['admin.organization', 'admin.organization-user'])}"
+              ng-if="hasRole('admin')">
             <a ui-sref="admin.organization"><i class="fa fa-fw fa-briefcase"></i> Organizações</a>
           </li>
-          <li data-to-top ng-class="{active: menuIsActive('admin.thing')}" ng-if="getCurrentUser().role === 'root'">
+          <li data-to-top ng-class="{active: menuIsActive('admin.thing')}"  ng-if="hasRole('root')">
             <a ui-sref="admin.thing"><i class="fa fa-fw fa-table"></i> Coisas</a>
           </li>
         </ul>
