@@ -35,10 +35,14 @@ var all = {
   // List of user roles
   userRoles: ['guest', 'user', 'org', 'admin', 'root'],
 
-  //list of pet types
+  //pet configuration
   pet: {
-    types: ['dog', 'cat'],
-    default: 'dog'
+    enums: {
+      type: ['dog', 'cat'],
+      size: ['small', 'medium', 'larger'],
+      gender: ['male', 'female'],
+      age: ['baby', ' young', 'adult', 'senior']
+    }
   },
 
   admin: {

@@ -6,7 +6,7 @@ var config = require('../../config/environment');
 
 var BreedSchema = new Schema({
   name: {type: String, required: true},
-  type: {type: String, required: true, enum: config.pet.types, default: config.pet.default, index: true}
+  type: {type: String, required: true, enum: config.pet.enums.type, default: config.pet.enums.type[0], index: true}
 });
 
 BreedSchema.plugin(require('mongoose-created-at'));

@@ -1,16 +1,10 @@
 'use strict';
 
 angular.module('tapApp')
-  .controller('BreedCtrl', function ($scope, Breed, $stateParams, $location) {
+  .controller('BreedCtrl', function ($scope, Breed, $stateParams, $location, ENUM) {
     $scope.breeds = Breed.query();
     $scope.breed = {};
-    $scope.typeEnum = [{
-      label: 'Cachorro',
-      id: 'dog'
-    }, {
-      label: 'Gato',
-      id: 'cat'
-    }];
+    $scope.typeEnum = ENUM.get('petType');
 
     $scope.edit = function (breed) {
       $scope.ui.loading();
