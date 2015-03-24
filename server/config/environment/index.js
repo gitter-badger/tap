@@ -35,6 +35,12 @@ var all = {
   // List of user roles
   userRoles: ['guest', 'user', 'org', 'admin', 'root'],
 
+  //list of pet types
+  pet: {
+    types: ['dog', 'cat'],
+    default: 'dog'
+  },
+
   admin: {
     name: process.env.ADMIN_NAME || 'Admin',
     email: process.env.ADMIN_EMAIL || 'admin@admin.com',
