@@ -5,7 +5,11 @@ var Breed = require('./breed.model');
 
 // Get list of breeds
 exports.index = function (req, res) {
-  Breed.find(function (err, breeds) {
+  var query = Breed.find();
+  if (req.query.type) {
+    query.where('type').equals(req.query.type);
+  }
+  query.exec(function (err, breeds) {
     if (err) {
       return handleError(res, err);
     }
