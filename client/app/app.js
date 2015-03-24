@@ -14,7 +14,8 @@ angular.module('tapApp', [
   'btford.socket-io',
   'ui.router',
   'ui.bootstrap',
-  'uiGmapgoogle-maps'
+  'uiGmapgoogle-maps',
+  'ui.select'
 ])
   .config(function (uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({

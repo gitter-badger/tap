@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('tapApp')
-  .controller('PetCtrl', function ($scope, Pet, $stateParams, $location, ENUM) {
+  .controller('PetCtrl', function ($scope, Pet, $stateParams, $location, ENUM, Breed) {
     $scope.pets = Pet.query();
     $scope.pet = {};
     $scope.typeEnum = ENUM.get('petType');
     $scope.sizeEnum = ENUM.get('petSize');
     $scope.ageEnum = ENUM.get('petAge');
     $scope.genderEnum = ENUM.get('petGender');
+    $scope.breeds = [];
 
     $scope.edit = function (pet) {
       $scope.ui.loading();
@@ -88,6 +89,10 @@ angular.module('tapApp')
           console.log(err);
         });
       });
+    };
+
+    $scope.updateBreeds = function (type) {
+      $scope.breeds = Breed.query({type: type});
     };
 
     if ($stateParams.id) {

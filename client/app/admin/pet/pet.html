@@ -43,7 +43,8 @@
 
                     <div class="col-xs-10">
                       <select id='type' name="type" class="form-control" ng-model="pet.type" required
-                              ng-options="type.id as type.label for type in typeEnum" required>
+                              ng-options="type.id as type.label for type in typeEnum" required
+                              ng-change="updateBreeds(pet.type)">
                       </select>
 
                       <p class="help-block" ng-show="form.type.$error.required && form.type.$dirty">
@@ -93,6 +94,30 @@
                       </p>
                     </div>
                   </div>
+                  <div class="form-group"
+                       ng-class="{ 'has-success': form.breeds.$valid && form.breeds.$dirty, 'has-error': form.breeds.$invalid && form.breeds.$dirty }">
+                    <label class="col-xs-2">Raças</label>
+
+                    <div class="col-xs-10">
+                      <ui-select multiple ng-model="pet.breeds" theme="bootstrap"
+                                 class="form-control"
+                                 reset-search-input>
+                        <ui-select-match placeholder="Selecione a(s) raça(s)">{{$item.name}}</ui-select-match>
+                        <ui-select-choices repeat="breed in breeds | filter: $select.search">
+                          <div ng-bind-html="breed.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div>
+                  </div>
+                  <div class="form-group"
+                       ng-class="{ 'has-success': form.history.$valid && form.history.$dirty, 'has-error': form.history.$invalid && form.history.$dirty }">
+                    <label for="history" class="col-xs-2">História</label>
+
+                    <div class="col-xs-10">
+                      <textarea name="history" id="history" ng-model="pet.history" class="form-control"
+                                rows="10" placeholder="Conte um pouco sobre a vida do pet"></textarea>
+                    </div>
+                  </div>
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                       <button ng-disabled="form.$invalid || submitted === true" class="btn btn-primary" type="submit">
@@ -128,7 +153,8 @@
               <tr>
                 <th field-name="name" display-name="Nome" enable-filtering="true" enable-sorting="true">
                 </th>
-                <th field-name="type" display-name="Tipo" enable-filtering="true" enable-sorting="true" display-format="enum:'petType'">
+                <th field-name="type" display-name="Tipo" enable-filtering="true" enable-sorting="true"
+                    display-format="enum:'petType'">
                 </th>
                 <th class='grid-actions'>
                   <div>

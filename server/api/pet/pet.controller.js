@@ -28,6 +28,9 @@ exports.show = function (req, res) {
 
 // Creates a new pet in the DB.
 exports.create = function (req, res) {
+  if (req.user.organization) {
+    req.body.organization = req.user.organization;
+  }
   Pet.create(req.body, function (err, pet) {
     if (err) {
       return handleError(res, err);
@@ -40,6 +43,9 @@ exports.create = function (req, res) {
 exports.update = function (req, res) {
   if (req.body._id) {
     delete req.body._id;
+  }
+  if (req.user.organization && !req.user.organization.equals(req.body.organization)) {
+    return res.status(403).send('Você não pode alterar um pet de outra organização');
   }
   Pet.findById(req.params.id, function (err, pet) {
     if (err) {
