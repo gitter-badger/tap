@@ -6,7 +6,7 @@ angular.module('tapApp')
       .state('admin.pet', {
         url: '/pet?id',
         role: function ($injector) {
-          return $injector.get('Auth').hasRole('ong');
+          return $injector.get('Auth').hasRole('org');
         },
         reloadOnSearch: false,
         views: {

@@ -20,7 +20,7 @@ var PetSchema = new Schema({
     index: true
   },
   organization: {type: Schema.Types.ObjectId, ref: 'Organization', required: true, index: true},
-  image: gmFilters.createImageSchema(),
+  profilePicture: gmFilters.createImageSchema(),
   images: [gmFilters.createImageSchema()],
   counts: {
     display: {type: Number, default: 0},

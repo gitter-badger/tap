@@ -20,7 +20,7 @@ function imageSchema() {
       }
     }
   };
-}
+};
 
 function filters() {
   return [{
@@ -47,6 +47,7 @@ function filters() {
     size: function (file, cb) {
       gm(file.path)
         .resize(null, '800')
+        .quality(80)
         .stream(function (err, stdout, stderr) {
           if (err) {
             return cb(err);
@@ -63,6 +64,36 @@ function filters() {
     filter: function (file, cb) {
       gm(file.path)
         .resize(null, '800')
+        .quality(80)
+        .stream(function (err, stdout, stderr) {
+          if (err) {
+            return cb(err);
+          }
+          return cb(err, stdout, stderr);
+        });
+    }
+  }, {
+    name: 'maxWidth',
+    size: function (file, cb) {
+      gm(file.path)
+        .resize('400', null)
+        .quality(80)
+        .stream(function (err, stdout, stderr) {
+          if (err) {
+            return cb(err);
+          }
+          gm(stdout).size(function (err, size) {
+            if (err) {
+              return cb(err);
+            }
+            return cb(err, size);
+          });
+        });
+
+    },
+    filter: function (file, cb) {
+      gm(file.path)
+        .resize('400', null)
         .quality(80)
         .stream(function (err, stdout, stderr) {
           if (err) {

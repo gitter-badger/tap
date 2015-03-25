@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tapApp')
-  .controller('PetCtrl', function ($scope, Pet, $stateParams, $location, ENUM, Breed) {
+  .controller('PetCtrl', function ($scope, Pet, $stateParams, $location, ENUM, Breed, Organization, FileUpload) {
     $scope.pets = Pet.query();
     $scope.pet = {};
     $scope.typeEnum = ENUM.get('petType');
@@ -9,6 +9,29 @@ angular.module('tapApp')
     $scope.ageEnum = ENUM.get('petAge');
     $scope.genderEnum = ENUM.get('petGender');
     $scope.breeds = [];
+    $scope.organizations = [];
+
+    if ($scope.getCurrentUser().role !== 'org') {
+      $scope.organizations = Organization.query();
+    }
+
+    $scope.profilePictureUpload = function (newFiles) {
+      $scope.profilePictureUploadProgress = FileUpload.progress;
+      FileUpload.upload(newFiles, {}, function (err, file) {
+        if (err) {
+          return;
+        }
+        $scope.pet.profilePicture = {
+          url: file.url,
+          width: file.width,
+          height: file.height,
+          filters: file.filterNamed
+        };
+      }, function () {
+        $scope.ui.alert('Upload concluído com sucesso!', 'success');
+        $scope.profilePictureUploadProgress = undefined;
+      });
+    };
 
     $scope.edit = function (pet) {
       $scope.ui.loading();
@@ -17,6 +40,7 @@ angular.module('tapApp')
       Pet.get({id: petId}, function (pet) {
         $scope.pet = pet;
         $scope.ui.loaded();
+        $scope.updateBreeds(pet.type)
       }, function (err) {
         $scope.ui.alert('Erro ao carregaro registro', 'danger');
         $scope.ui.loaded();
@@ -92,7 +116,21 @@ angular.module('tapApp')
     };
 
     $scope.updateBreeds = function (type) {
-      $scope.breeds = Breed.query({type: type});
+      $scope.breeds = Breed.query({type: type}, function () {
+        if (!$scope.pet._id) {
+          return;
+        }
+        var petBreeds = [];
+        angular.forEach($scope.breeds, function (breed) {
+          var index = _.findIndex($scope.pet.breeds, function (petBreed) {
+            return petBreed == breed._id;
+          });
+          if (index >= 0) {
+            petBreeds.push(breed._id);
+          }
+        });
+        $scope.pet.breeds = petBreeds;
+      });
     };
 
     if ($stateParams.id) {

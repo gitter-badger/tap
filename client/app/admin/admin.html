@@ -51,11 +51,11 @@
             <a ui-sref="admin.organization"><i class="fa fa-fw fa-briefcase"></i> Organizações</a>
           </li>
           <li data-to-top ng-class="{active: menuIsActive('admin.pet')}"
-              ng-if="hasRole('ong')">
+              ng-if="hasRole('org')">
             <a ui-sref="admin.pet"><i class="fa fa-fw fa-paw"></i> Pets</a>
           </li>
           <li data-to-top ng-class="{active: menuIsActive('admin.breed')}"
-              ng-if="hasRole('ong')">
+              ng-if="hasRole('org')">
             <a ui-sref="admin.breed"><i class="fa fa-fw fa-paw"></i> Raças</a>
           </li>
           <li data-to-top ng-class="{active: menuIsActive('admin.thing')}" ng-if="hasRole('root')">

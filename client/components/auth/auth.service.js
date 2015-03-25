@@ -146,7 +146,7 @@ angular.module('tapApp')
           return;
         }
 
-        return (roles.indexOf(currentUser.role) >= roles.indexOf(roleRequired));
+        return (roles.indexOf(roleRequired) >= 0) && (roles.indexOf(currentUser.role) >= roles.indexOf(roleRequired));
       },
 
       /**

@@ -62,7 +62,7 @@ exports.create = function (req, res) {
           if (err) {
             next(err);
           }
-          var upload = createUploader(filter.name + '-' + reqFile.name);
+          var upload = createUploader(filter.name + '-' + reqFile.name, reqFile.type);
           upload.on('error', function (err) {
             next(err);
           });
@@ -85,7 +85,7 @@ exports.create = function (req, res) {
         return handleError(res, err);
       }
       var read = fs.createReadStream(reqFile.path);
-      var upload = createUploader(reqFile.name);
+      var upload = createUploader(reqFile.name, reqFile.type);
       upload.on('error', function (err) {
         return handleError(res, err);
       });
@@ -150,13 +150,13 @@ exports.destroy = function (req, res) {
 };
 
 
-function createUploader(fileName) {
+function createUploader(fileName, fileType) {
   var upload = s3Stream.upload({
     Bucket: config.aws.s3.bucket,
     Key: config.aws.s3.prefixKey + new Date().getTime() + '-' + fileName,
     ACL: "public-read",
-    StorageClass: "REDUCED_REDUNDANCY",
-    ContentType: "binary/octet-stream"
+    StorageClass: "STANDARD",
+    ContentType: fileType || "binary/octet-stream"
   });
   upload.maxPartSize(20971520); // 20 MB
   upload.concurrentParts(5);

@@ -10,7 +10,7 @@ var router = express.Router();
 
 router.get('/', controller.index);
 router.get('/:id', controller.show);
-router.post('/', auth.hasRole('admin'), multipartMiddleware, controller.create);
+router.post('/', auth.hasRole('org'), multipartMiddleware, controller.create);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 
 module.exports = router;
