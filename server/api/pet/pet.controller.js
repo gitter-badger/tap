@@ -55,11 +55,16 @@ exports.update = function (req, res) {
       return res.status(404).send('Not Found');
     }
     var updated = _.merge(pet, req.body);
-    updated.save(function (err) {
+    updated.images = [];
+    req.body.images.forEach(function (image) {
+      updated.images.push(image);
+    });
+    updated.markModified('images');
+    updated.save(function (err, saved) {
       if (err) {
         return handleError(res, err);
       }
-      return res.status(200).json(pet);
+      return res.status(200).json(saved);
     });
   });
 };

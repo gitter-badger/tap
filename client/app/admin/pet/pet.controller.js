@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tapApp')
-  .controller('PetCtrl', function ($scope, Pet, $stateParams, $location, ENUM, Breed, Organization, FileUpload) {
+  .controller('PetCtrl', function ($scope, Pet, $stateParams, $location, ENUM, Breed, Organization, FileUpload, $modal) {
     $scope.pets = Pet.query();
     $scope.pet = {};
     $scope.typeEnum = ENUM.get('petType');
@@ -67,7 +67,9 @@ angular.module('tapApp')
 
     $scope.update = function (pet) {
       $scope.ui.loading();
-      pet.$update(function () {
+      pet.$update(function (saved) {
+        $scope.pet = saved;
+        pet = saved;
         $scope.submitted = false;
         $scope.ui.loaded();
         var index = _.findIndex($scope.pets, {_id: pet._id});
@@ -130,6 +132,31 @@ angular.module('tapApp')
           }
         });
         $scope.pet.breeds = petBreeds;
+      });
+    };
+
+    $scope.openAlbum = function () {
+      if ($scope.albumIsOpened === true || !$scope.pet._id) {
+        return;
+      }
+      $scope.albumIsOpened = true;
+      var modalInstance = $modal.open({
+        templateUrl: 'app/admin/pet/pet-album.html',
+        controller: 'PetAlbumCtrl',
+        size: 'lg',
+        resolve: {
+          pet: function () {
+            return angular.copy($scope.pet);
+          }
+        }
+      });
+      modalInstance.result.then(function (pet) {
+        $scope.albumIsOpened = false;
+        $scope.submitted = true;
+        $scope.pet = pet;
+        $scope.update(pet);
+      }, function () {
+        $scope.albumIsOpened = false;
       });
     };
 
