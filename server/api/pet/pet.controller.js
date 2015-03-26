@@ -2,14 +2,62 @@
 
 var _ = require('lodash');
 var Pet = require('./pet.model');
+var Diacritics = require('diacritic');
 
 // Get list of pets
 exports.index = function (req, res) {
-  Pet.find(function (err, pets) {
+  var buildQuery = function (query) {
+    if (req.query.name) {
+      query.where('nameNormalized').equals(new RegExp(Diacritics.clean(req.query.name), 'i'));
+    }
+    if (req.query.organization) {
+      query.where('organization').equals(req.query.organization);
+    }
+    if (req.query.type) {
+      query.where('type').equals(req.query.type);
+    }
+    if (req.query.size) {
+      query.where('size').equals(req.query.size);
+    }
+    if (req.query.gender) {
+      query.where('gender').equals(req.query.gender);
+    }
+    if (req.query.age) {
+      query.where('age').equals(req.query.age);
+    }
+    if (req.query.breeds) {
+      var breeds = (_.isArray(req.query.breeds)) ? req.query.breeds : [req.query.breeds];
+      var breedsCondition = [];
+      breeds.forEach(function (breed) {
+        breedsCondition.push({breeds: breed});
+      });
+      query.and([{$or: breedsCondition}]);
+    }
+    return query;
+  };
+  var query = buildQuery(Pet.find());
+  var countQuery = buildQuery(Pet.find());
+  countQuery.count(function (err, count) {
     if (err) {
       return handleError(res, err);
     }
-    return res.status(200).json(pets);
+    if (!req.query.limit || req.query.limit > 100) {
+      req.query.limit = 20;
+    }
+
+    query.paginate(req.query.page || 1, req.query.limit);
+    query.sort(req.query.sort || '-createdAt');
+    query.exec(function (err, pets) {
+      if (err) {
+        return handleError(res, err);
+      }
+      return res.json(200, {
+        page: req.query.page,
+        count: count,
+        countByPage: pets.length,
+        resources: pets
+      });
+    });
   });
 };
 
@@ -77,6 +125,9 @@ exports.destroy = function (req, res) {
     }
     if (!pet) {
       return res.status(404).send('Not Found');
+    }
+    if (req.user.organization.equals(pet.organization)) {
+      return res.status(403).send('Você não pode deletar um pet de outra organização');
     }
     pet.delete(function (err) {
       if (err) {

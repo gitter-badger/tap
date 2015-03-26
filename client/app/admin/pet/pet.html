@@ -184,13 +184,17 @@
       <div class="col-xs-12">
         <div class="panel panel-default">
           <div class="panel-heading">
+            <three-bounce-spinner class="admin-spinner inverse pull-right" ng-if="gridLoading">
+            </three-bounce-spinner>
             <h3 class="panel-title">
               <i class="fa fa-list fa-fw"></i>
               Pets cadastrados
             </h3>
           </div>
           <div class='container-grid'>
-            <table tr-ng-grid="" items="pets" locale='pt-br' page-items="10" selection-mode='none'>
+            <table tr-ng-grid="" locale='pt-br' selection-mode='none' items="pets" page-items="10"
+                   total-items="petsCount"
+                   on-data-required="gridLoad(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
               <thead>
               <tr>
                 <th field-name="name" display-name="Nome" enable-filtering="true" enable-sorting="true">

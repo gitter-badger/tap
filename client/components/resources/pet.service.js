@@ -2,10 +2,13 @@
 
 angular.module('tapApp')
   .factory('Pet', function ($resource) {
-    return $resource('/api/pets/:id/:controller', {
-        id: '@_id'
+    return $resource('/api/pets/:id/:controller', {id: '@_id'}, {
+      update: {
+        method: 'PUT'
       },
-      {
-        update: {method: 'PUT'}
-      });
+      query: {
+        method: 'GET',
+        isArray: false
+      }
+    });
   });

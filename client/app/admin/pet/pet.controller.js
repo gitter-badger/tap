@@ -3,6 +3,7 @@
 angular.module('tapApp')
   .controller('PetCtrl', function ($scope, Pet, $stateParams, $location, ENUM, Breed, Organization, FileUpload, $modal) {
     $scope.pets = Pet.query();
+    $scope.petsCount = 0;
     $scope.pet = {};
     $scope.typeEnum = ENUM.get('petType');
     $scope.sizeEnum = ENUM.get('petSize');
@@ -10,6 +11,8 @@ angular.module('tapApp')
     $scope.genderEnum = ENUM.get('petGender');
     $scope.breeds = [];
     $scope.organizations = [];
+    $scope.gridLoading = false;
+    $scope.gridFilters = {};
 
     if ($scope.getCurrentUser().role !== 'org') {
       $scope.organizations = Organization.query();
@@ -72,8 +75,7 @@ angular.module('tapApp')
         pet = saved;
         $scope.submitted = false;
         $scope.ui.loaded();
-        var index = _.findIndex($scope.pets, {_id: pet._id});
-        $scope.pets.splice(index, 1, angular.copy(pet));
+        $scope.gridRefresh();
         $scope.ui.alert('Atualizado com sucesso!', 'success');
       }, function (err) {
         $scope.submitted = false;
@@ -90,7 +92,7 @@ angular.module('tapApp')
         $scope.ui.alert('Adicionado com sucesso!', 'success');
         $scope.submitted = false;
         $scope.ui.loaded();
-        $scope.pets.push(pet);
+        $scope.gridRefresh();
         $location.search('id', pet._id);
       }, function (err) {
         $scope.submitted = false;
@@ -104,8 +106,7 @@ angular.module('tapApp')
       $scope.ui.confirm('Tem certeza que deseja deletar ?', function () {
         pet.$delete(function () {
           $location.search('id', null);
-          var index = _.findIndex($scope.pets, {_id: pet._id});
-          $scope.pets.splice(index, 1);
+          $scope.gridRefresh();
           if ($scope.pet._id === pet._id) {
             $scope.clear(form);
           }
@@ -158,6 +159,45 @@ angular.module('tapApp')
       }, function () {
         $scope.albumIsOpened = false;
       });
+    };
+
+    $scope.gridLoad = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+      if (orderByReverse) {
+        orderBy = ('-' + orderBy);
+      }
+
+      $scope.gridFilters.currentPage = currentPage;
+      $scope.gridFilters.pageItems = pageItems;
+      $scope.gridFilters.filterBy = filterBy;
+      $scope.gridFilters.filterByFields = filterByFields;
+      $scope.gridFilters.orderBy = orderBy;
+      $scope.gridFilters.orderByReverse = orderByReverse;
+
+      if ($scope.getCurrentUser().role === 'org') {
+        filterByFields.organization = $scope.getCurrentUser().organization;
+      }
+
+      $scope.gridLoading = true;
+      Pet.query(_.merge({
+        page: currentPage + 1,
+        limit: pageItems,
+        sort: orderBy
+      }, filterByFields), function (response) {
+        $scope.pets = response.resources;
+        $scope.petsCount = response.count;
+        $scope.gridLoading = false;
+      });
+    };
+
+    $scope.gridRefresh = function () {
+      $scope.gridLoad(
+        $scope.gridFilters.currentPage,
+        $scope.gridFilters.pageItems,
+        $scope.gridFilters.filterBy,
+        $scope.gridFilters.filterByFields,
+        $scope.gridFilters.orderBy,
+        $scope.gridFilters.orderByReverse
+      );
     };
 
     if ($stateParams.id) {
