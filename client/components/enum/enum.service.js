@@ -61,6 +61,20 @@ angular.module('tapApp')
       id: 'senior'
     }];
 
+    /**
+     * Ordenações para pet
+     */
+    enums.petSort = [{
+      label: 'Atualizados Recentemente',
+      id: '-updatedAt'
+    }, {
+      label: 'Mais Visualizados',
+      id: '-counts.display'
+    }, {
+      label: 'Preferidos',
+      id: '-counts.like'
+    }];
+
     return {
       get: function (name) {
         return enums[name];

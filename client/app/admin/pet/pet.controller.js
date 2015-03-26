@@ -2,7 +2,7 @@
 
 angular.module('tapApp')
   .controller('PetCtrl', function ($scope, Pet, $stateParams, $location, ENUM, Breed, Organization, FileUpload, $modal) {
-    $scope.pets = Pet.query();
+    $scope.pets = [];
     $scope.petsCount = 0;
     $scope.pet = {};
     $scope.typeEnum = ENUM.get('petType');

@@ -24,7 +24,7 @@ var PetSchema = new Schema({
   images: [gmFilters.createImageSchema()],
   counts: {
     display: {type: Number, default: 0},
-    likes: {type: Number, default: 0}
+    like: {type: Number, default: 0}
   },
   size: {
     type: String,

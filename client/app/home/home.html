@@ -5,26 +5,23 @@
         <div class="col-xs-12">
           <form class="form-inline filter-main" ng-submit="filter()">
             <div class="form-group">
-              <label class="sr-only" for="main-type">Tipo de animal</label>
-              <select class="form-control" id="main-type" ng-model="type" name="type"
-                      ng-options="type.description for type in enums.type" ng-change="updateBreeds();
-                                    updatePets();">
+              <label class="sr-only" for="pets-filter-type">Tipo de animal</label>
+              <select id='pets-filter-type' name="type" class="form-control" ng-model="petsFilter.type" required
+                      ng-options="type.id as type.label for type in typeEnum"
+                      ng-change="updateBreeds(petsFilter.type)">
               </select>
             </div>
             <div class="form-group">
-              <label class="sr-only" for="main-breed">Raça preferida</label>
-              <select class="form-control" id="main-breed" ng-model="breed" name="breed"
-                      ng-options="breed.name for breed in breeds" ng-change="onChangeBreed();
-                                    updatePets();">
-                <option value="">Raça preferida</option>
+              <label class="sr-only" for="pets-filter-breed">Raça preferida</label>
+              <select class="form-control" id="pets-filter-breed" ng-model="petsFilter.breed" name="breed"
+                      ng-options="breed.name for breed in breeds">
+                <option value="">Todas as Raças</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="sr-only" for="main-order">Ordenar Por</label>
-              <select id="main-order" class="form-control" ng-model="sorting" name="sorting"
-                      ng-options="sortingOption.description for sortingOption in enums.sorting"
-                      ng-change="updatePets();">
-                <option value="">Ordenar Por</option>
+              <label class="sr-only" for="pets-sort">Ordenar Por</label>
+              <select id="pets-sort" class="form-control" ng-model="petsSort" name="sort"
+                      ng-options="sort.id as sort.label for sort in sortEnum" required>
               </select>
             </div>
           </form>
@@ -86,7 +83,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12 text-center">
+        <div class="col-xs-12 text-center" ng-if="pets.length">
           <pagination
             scroll-to-top
             ng-model="page"
@@ -115,24 +112,24 @@
             <div class="panel-body">
               <form ng-submit="filter()">
                 <div class="form-group">
-                  <label class="sr-only" for="main-size">Tamanho</label>
-                  <select ng-change="updatePets()" class="form-control" id="main-size" ng-model="size" name="size"
-                          ng-options="size.description for size in enums.size">
-                    <option value="">Tamanho</option>
+                  <label class="sr-only" for="pets-filter-size">Tamanho</label>
+                  <select class="form-control" id="pets-filter-size" ng-model="petsFilter.size" name="size"
+                          ng-options="size.id as size.label for size in sizeEnum">
+                    <option value="">Todos os Tamanhos</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="sr-only" for="main-age">Idade</label>
-                  <select ng-change="updatePets()" class="form-control" id="main-age" ng-model="age" name="age"
-                          ng-options="age.description for age in enums.age">
-                    <option value="">Idade</option>
+                  <label class="sr-only" for="pets-filter-age">Idade</label>
+                  <select class="form-control" id="pets-filter-age" ng-model="petsFilter.age" name="age"
+                          ng-options="age.id as age.label for age in ageEnum">
+                    <option value="">Todas as Idades</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="sr-only" for="main-gender">Gênero</label>
-                  <select ng-change="updatePets()" class="form-control" id="main-gender" ng-model="gender" name="gender"
-                          ng-options="gender.description for gender in enums.gender">
-                    <option value="">Gênero</option>
+                  <label class="sr-only" for="pets-filter-gender">Gênero</label>
+                  <select class="form-control" id="pets-filter-gender" ng-model="petsFilter.gender" name="gender"
+                          ng-options="gender.id as gender.label for gender in genderEnum">
+                    <option value="">Todos os Gênero</option>
                   </select>
                 </div>
                 <button type="button" class="btn btn-info btn-block hidden-lg hidden-md" data-offcanvas>Esconder <span
