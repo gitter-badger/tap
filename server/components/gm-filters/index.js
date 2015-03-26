@@ -20,7 +20,7 @@ function imageSchema() {
       }
     }
   };
-};
+}
 
 function filters() {
   return [{

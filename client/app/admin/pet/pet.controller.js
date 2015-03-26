@@ -43,7 +43,7 @@ angular.module('tapApp')
       Pet.get({id: petId}, function (pet) {
         $scope.pet = pet;
         $scope.ui.loaded();
-        $scope.updateBreeds(pet.type)
+        $scope.updateBreeds(pet.type);
       }, function (err) {
         $scope.ui.alert('Erro ao carregaro registro', 'danger');
         $scope.ui.loaded();
@@ -126,7 +126,7 @@ angular.module('tapApp')
         var petBreeds = [];
         angular.forEach($scope.breeds, function (breed) {
           var index = _.findIndex($scope.pet.breeds, function (petBreed) {
-            return petBreed == breed._id;
+            return String(petBreed) === String(breed._id);
           });
           if (index >= 0) {
             petBreeds.push(breed._id);
