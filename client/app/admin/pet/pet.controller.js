@@ -104,7 +104,7 @@ angular.module('tapApp')
 
     $scope.delete = function (pet, form) {
       $scope.ui.confirm('Tem certeza que deseja deletar ?', function () {
-        pet.$delete(function () {
+        Pet.delete({id: pet._id}, function () {
           $location.search('id', null);
           $scope.gridRefresh();
           if ($scope.pet._id === pet._id) {

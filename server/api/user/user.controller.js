@@ -13,7 +13,7 @@ var validationError = function (res, err) {
  * Get list of users
  */
 exports.index = function (req, res) {
-  var query = User.find({active: true, role: 'user'}, '_id name picture');
+  var query = User.find({deleted: false, role: 'user'}, '_id name picture');
   if (req.query.place) {
     query.where('place').equals(req.query.place);
   }
@@ -75,7 +75,7 @@ exports.createAdmin = function (req, res) {
 exports.show = function (req, res, next) {
   var userId = req.params.id;
 
-  User.findById(userId, function (err, user) {
+  User.findOne({_id: userId, deleted: false}, function (err, user) {
     if (err)
       return next(err);
     if (!user)
@@ -114,7 +114,7 @@ exports.destroy = function (req, res) {
     if (user.email === config.admin.email) {
       return res.send(403);
     }
-    User.remove({_id: user._id}, function (err) {
+    User.delete({_id: user._id}, function (err) {
       if (err) {
         return res.send(500, err);
       }

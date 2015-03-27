@@ -1,78 +1,78 @@
 'use strict';
 
 var _ = require('lodash');
-var Breed = require('./breed.model');
+var State = require('./state.model');
 
-// Get list of breeds
+// Get list of states
 exports.index = function (req, res) {
-  var query = Breed.find();
-  query.where('deleted').equals(false);
-  if (req.query.type) {
-    query.where('type').equals(req.query.type);
+  var query = State.find();
+  if (req.query.published) {
+    query.where('published').equals((String(req.query.published) === 'true'));
   }
-  query.exec(function (err, breeds) {
+  query.where('deleted').equals(false);
+  query.exec(function (err, states) {
     if (err) {
       return handleError(res, err);
     }
-    return res.status(200).json(breeds);
+    return res.status(200).json(states);
   });
 };
 
-// Get a single breed
+// Get a single state
 exports.show = function (req, res) {
-  Breed.findOne({_id: req.params.id, deleted: false}, function (err, breed) {
+  State.findOne({_id: req.params.id, deleted: false}, function (err, state) {
     if (err) {
       return handleError(res, err);
     }
-    if (!breed) {
+    if (!state) {
       return res.status(404).send('Not Found');
     }
-    return res.json(breed);
+    return res.json(state);
   });
 };
 
-// Creates a new breed in the DB.
+// Creates a new state in the DB.
 exports.create = function (req, res) {
-  Breed.create(req.body, function (err, breed) {
+  State.create(req.body, function (err, state) {
     if (err) {
       return handleError(res, err);
     }
-    return res.status(201).json(breed);
+    return res.status(201).json(state);
   });
 };
 
-// Updates an existing breed in the DB.
+// Updates an existing state in the DB.
 exports.update = function (req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Breed.findById(req.params.id, function (err, breed) {
+  State.findById(req.params.id, function (err, state) {
     if (err) {
       return handleError(res, err);
     }
-    if (!breed) {
+    if (!state) {
       return res.status(404).send('Not Found');
     }
-    var updated = _.merge(breed, req.body);
+    var updated = _.merge(state, req.body);
     updated.save(function (err) {
       if (err) {
         return handleError(res, err);
       }
-      return res.status(200).json(breed);
+      return res.status(200).json(state);
     });
   });
 };
 
-// Deletes a breed from the DB.
+// Deletes a state from the DB.
 exports.destroy = function (req, res) {
-  Breed.findById(req.params.id, function (err, breed) {
+  State.findById(req.params.id, function (err, state) {
     if (err) {
       return handleError(res, err);
     }
-    if (!breed) {
+    if (!state) {
       return res.status(404).send('Not Found');
     }
-    breed.delete(function (err) {
+    state.delete(function (err) {
       if (err) {
         return handleError(res, err);
       }

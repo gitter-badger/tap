@@ -20,6 +20,14 @@ var PetSchema = new Schema({
     index: true
   },
   organization: {type: Schema.Types.ObjectId, ref: 'Organization', required: true, index: true},
+  city: {type: Schema.Types.ObjectId, ref: 'City', required: true, index: true},
+  state: {type: Schema.Types.ObjectId, ref: 'State', required: true, index: true},
+  location: {
+    index: '2dsphere',
+    type: [Number],
+    required: true
+  },
+  keywords: {type: String, lowercase: true, trim: true},
   profilePicture: gmFilters.createImageSchema(),
   images: [gmFilters.createImageSchema()],
   counts: {

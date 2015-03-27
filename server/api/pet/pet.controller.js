@@ -7,6 +7,13 @@ var Diacritics = require('diacritic');
 // Get list of pets
 exports.index = function (req, res) {
   var buildQuery = function (query) {
+    query.where('deleted').equals(false);
+    if (String(req.query.populateBreeds) === 'true') {
+      query.populate('breeds', '_id name');
+    }
+    if (String(req.query.populateOrganization) === 'true') {
+      query.populate('organization', '_id name address.city address.state');
+    }
     if (req.query.name) {
       query.where('nameNormalized').equals(new RegExp(Diacritics.clean(req.query.name), 'i'));
     }
@@ -63,7 +70,7 @@ exports.index = function (req, res) {
 
 // Get a single pet
 exports.show = function (req, res) {
-  Pet.findById(req.params.id, function (err, pet) {
+  Pet.findOne({_id: req.params.id, deleted: false}, function (err, pet) {
     if (err) {
       return handleError(res, err);
     }
@@ -126,7 +133,7 @@ exports.destroy = function (req, res) {
     if (!pet) {
       return res.status(404).send('Not Found');
     }
-    if (req.user.organization.equals(pet.organization)) {
+    if (req.user.organization && req.user.organization.equals(pet.organization)) {
       return res.status(403).send('Você não pode deletar um pet de outra organização');
     }
     pet.delete(function (err) {

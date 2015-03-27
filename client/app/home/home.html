@@ -3,7 +3,7 @@
     <div class="col-xs-12 col-sm-12 col-md-9">
       <div class="row">
         <div class="col-xs-12">
-          <form class="form-inline filter-main" ng-submit="filter()">
+          <form class="form-inline filter-main">
             <div class="form-group">
               <label class="sr-only" for="pets-filter-type">Tipo de animal</label>
               <select id='pets-filter-type' name="type" class="form-control" ng-model="petsFilter.type" required
@@ -40,33 +40,32 @@
         </div>
       </div>
       <div ng-show="!loader" class="row" masonry preserve-order>
-        <div class="animal masonry-brick col-xs-12 col-sm-6 col-md-4" ng-repeat="pet in pets.resources">
+        <div class="animal masonry-brick col-xs-12 col-sm-6 col-md-4" ng-repeat="pet in pets">
           <div class="thumbnail">
-            <a
-              tooltip="{{ (isLoggedIn()) ? (isFavorited(pet)) ? 'Desfavoritar' : 'Favoritar' : 'Você precisa estar logado para favoritar um pet'}}"
-              tooltip-placement="left" ng-click="toggleFavoritePet(pet)" class="fa-stack fa-2x favorite-link"
-              style="cursor: pointer;">
+            <a class="fa-stack fa-2x favorite-link" style="cursor: pointer;">
               <i class="fa fa-circle fa-stack-2x"></i>
-              <span ng-class="{'favorited': isFavorited(pet), 'unfavorited' : !isFavorited(pet)}"><i
-                ng-class="{'fa-refresh fa-spin': pet.favoritedLoader, 'fa-heart': !pet.favoritedLoader, 'fa' : true, 'fa-stack-1x': true}"></i></span>
+              <span class="unfavorited">
+                <i class="fa-heart fa fa-stack-1x"></i>
+              </span>
             </a>
-            <a ui-sref="pet({id: pet.id})">
-              <img class="img-responsive" ng-src="{{ pet.profileImage}}" alt="{{ pet.name}}"
+            <a href="">
+              <img class="img-responsive"
+                   ng-src="{{pet.profilePicture.filters.maxWidth.url}}" alt="{{pet.name}}"
                    style="width: 100% !important; height: auto !important;">
             </a>
 
             <div class="caption">
-              <h3>{{ pet.name}}</h3>
+              <h3>{{pet.name}}</h3>
 
               <div>
-                <spam ng-repeat="breed in pet.breeds">{{ breed.name + ((!$last) ? ' & ' : '')}}</spam>
+                <spam ng-repeat="breed in pet.breeds">{{breed.name + ((!$last) ? ' & ' : '')}}</spam>
               </div>
               <div>
-                {{ pet.age}} - {{ pet.gender}}
+                {{pet.age|enum:'petAge'}} - {{pet.gender|enum:'petGender'}}
               </div>
               <div>
                 <i class="fa fa-map-marker"></i>
-                {{ pet.organization.address.city.name}} - {{ pet.organization.address.city.state.acronym}}
+                {{pet.organization.address.city}} - {{pet.organization.address.state}}
               </div>
             </div>
             <div class="actions btn-group" L>

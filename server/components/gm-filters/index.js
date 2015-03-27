@@ -17,6 +17,11 @@ function imageSchema() {
         url: String,
         width: Number,
         height: Number
+      },
+      maxWidth: {
+        url: String,
+        width: Number,
+        height: Number
       }
     }
   };

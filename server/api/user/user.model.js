@@ -18,7 +18,6 @@ var UserSchema = new Schema({
   provider: String,
   picture: String,
   socialLink: String,
-  active: {type: Boolean, default: true},
   organization: {type: Schema.Types.ObjectId, ref: 'Organization', index: true},
   salt: String,
   facebook: {},
@@ -28,6 +27,7 @@ var UserSchema = new Schema({
 
 UserSchema.plugin(require('mongoose-created-at'));
 UserSchema.plugin(require('mongoose-updated-at'));
+UserSchema.plugin(require('mongoose-delete'));
 
 /**
  * Virtuals
