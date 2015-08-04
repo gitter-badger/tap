@@ -45,7 +45,7 @@ angular.module('tapApp')
         $scope.ui.loaded();
         $scope.updateBreeds(pet.type);
       }, function (err) {
-        $scope.ui.alert('Erro ao carregaro registro', 'danger');
+        $scope.ui.alert('Erro ao carregaro registr o', 'danger');
         $scope.ui.loaded();
         console.log(err);
       });
