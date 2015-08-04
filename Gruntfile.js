@@ -663,10 +663,6 @@ module.exports = function (grunt) {
     'buildcontrol:heroku'
   ]);
 
-  grunt.registerTask('heroku', [
-    'buildcontrol:heroku'
-  ]);
-
   grunt.registerTask('debug', [
     'serve:debug'
   ]);
