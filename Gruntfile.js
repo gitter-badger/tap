@@ -16,7 +16,8 @@ module.exports = function (grunt) {
     ngtemplates: 'grunt-angular-templates',
     cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
-    buildcontrol: 'grunt-build-control'
+    buildcontrol: 'grunt-build-control',
+    coverage: 'grunt-istanbul-coverage'
   });
 
   // Time how long tasks take. Can help when optimizing build times
@@ -27,6 +28,20 @@ module.exports = function (grunt) {
 
     // Project settings
     pkg: grunt.file.readJSON('package.json'),
+    coverage: {
+      default: {
+        options: {
+          thresholds: {
+            statements: 10,
+            branches: 3,
+            lines: 10,
+            functions: 5
+          },
+          dir: 'coverage/report-json',
+          root: ''
+        }
+      }
+    },
     yeoman: {
       // configurable paths
       client: require('./bower.json').appPath || 'client',
@@ -433,10 +448,27 @@ module.exports = function (grunt) {
     },
 
     mochaTest: {
-      options: {
-        reporter: 'spec'
+      test: {
+        options: {
+          reporter: 'spec',
+          require: 'blanket'
+        },
+        src: ['server/**/*.spec.js']
       },
-      src: ['server/**/*.spec.js']
+      'html-cov': {
+        options: {
+          reporter: 'html-cov',
+          quiet: true,
+          captureFile: 'coverage.html'
+        },
+        src: ['server/**/*.spec.js']
+      },
+      'travis-cov': {
+        options: {
+          reporter: 'travis-cov'
+        },
+        src: ['server/**/*.spec.js']
+      }
     },
 
     protractor: {
@@ -540,7 +572,7 @@ module.exports = function (grunt) {
           ]
         }
       }
-    },
+    }
   });
 
   // Used for delaying livereload until after server has restarted
@@ -614,7 +646,8 @@ module.exports = function (grunt) {
         'concurrent:test',
         'injector',
         'autoprefixer',
-        'karma'
+        'karma',
+        'coverage'
       ]);
     }
 

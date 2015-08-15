@@ -1,27 +1,40 @@
 // Karma configuration
 // http://karma-runner.github.io/0.10/config/configuration-file.html
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // base path, that will be used to resolve files and exclude
     basePath: '',
 
     // testing framework to use (jasmine/mocha/qunit/...)
-    frameworks: ['jasmine'],
+    frameworks: ['bower', 'jasmine'],
+
+    reporters: ['progress', 'coverage'],
+
+    //components
+    bowerPackages: [
+      'jquery',
+      'angular',
+      'angular-resource',
+      'angular-spinkit',
+      'trNgGrid',
+      'angular-notify',
+      'angular-eyesight',
+      'angular-ui-tree',
+      'ng-file-upload',
+      'async',
+      'angular-cookies',
+      'angular-sanitize',
+      'angular-bootstrap',
+      'lodash',
+      'angular-socket-io',
+      'angular-ui-router',
+      'angular-google-maps',
+      'angular-ui-select'
+    ],
 
     // list of files / patterns to load in the browser
     files: [
-      'client/bower_components/jquery/dist/jquery.js',
-      'client/bower_components/angular/angular.js',
-      'client/bower_components/angular-mocks/angular-mocks.js',
-      'client/bower_components/angular-resource/angular-resource.js',
-      'client/bower_components/angular-cookies/angular-cookies.js',
-      'client/bower_components/angular-sanitize/angular-sanitize.js',
-      'client/bower_components/angular-route/angular-route.js',
-      'client/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-      'client/bower_components/lodash/dist/lodash.compat.js',
-      'client/bower_components/angular-socket-io/socket.js',
-      'client/bower_components/angular-ui-router/release/angular-ui-router.js',
       'client/app/app.js',
       'client/app/app.coffee',
       'client/app/**/*.js',
@@ -38,6 +51,7 @@ module.exports = function(config) {
       '**/*.jade': 'ng-jade2js',
       '**/*.html': 'html2js',
       '**/*.coffee': 'coffee',
+      '**/*.js': ['coverage']
     },
 
     ngHtml2JsPreprocessor: {
@@ -46,6 +60,16 @@ module.exports = function(config) {
 
     ngJade2JsPreprocessor: {
       stripPrefix: 'client/'
+    },
+
+    coverageReporter: {
+      dir: "coverage/",
+      reporters: [
+        {type: 'html', subdir: 'report-html'},
+        {type: 'lcov', subdir: 'report-lcov'},
+        {type: 'json', subdir: 'report-json'},
+        {type: "text-summary"}
+      ]
     },
 
     // list of files / patterns to exclude
@@ -71,7 +95,7 @@ module.exports = function(config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['PhantomJS'],
+    browsers: ['Firefox'],
 
 
     // Continuous Integration mode
