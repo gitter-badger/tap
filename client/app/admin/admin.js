@@ -4,8 +4,9 @@ angular.module('tapApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('admin', {
+        abstract: true,
         templateUrl: 'app/admin/admin.html',
-        controller: 'AdminCtrl',
+        controller: 'AdminCtrl as admin',
         url: '/admin'
       });
   });

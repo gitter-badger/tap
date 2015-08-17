@@ -10,7 +10,7 @@ angular.module('tapApp', [
   'eyesight',
   'ngCkeditor',
   'ui.tree',
-  'angularFileUpload',
+  'ngFileUpload',
   'btford.socket-io',
   'ui.router',
   'ui.bootstrap',
