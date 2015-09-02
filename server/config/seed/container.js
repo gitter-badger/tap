@@ -15,19 +15,27 @@ Container.prototype.run = function (done) {
   });
 };
 
-Container.prototype.build = function () {
+Container.prototype.replaceRefs = function (objects) {
   var container = this;
 
-  _.forEach(_.clone(container.seeders), function (seeder) {
-    seeder.objects = _.mapValues(seeder.objects, function (object) {
-      object = _.mapValues(object, function (value) {
-        if (_.isObject(value) && value.constructor && value.constructor.name === 'SeedRef') {
-          value = container.seeders[value.id].get(value.ref)._id;
-        }
-        return value;
-      });
-      return object;
-    })
+  return _.mapValues(objects, function (object) {
+    object = _.mapValues(object, function (value) {
+      if (_.isObject(value) && value.constructor && value.constructor.name === 'SeedRef') {
+        value = container.seeders[value.id].get(value.ref)._id;
+      }
+      return value;
+    });
+    return object;
+  });
+};
+
+
+Container.prototype.build = function () {
+  var container = this;
+  var seedersCloned = _.clone(container.seeders);
+
+  _.forEach(seedersCloned, function (seeder) {
+    seeder.objects = container.replaceRefs(seeder.objects);
   });
 };
 
