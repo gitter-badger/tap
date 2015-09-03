@@ -15,32 +15,11 @@ seeder.add({
       street: "Rua teste",
       number: "0123",
       district: "Centro",
-      city: new SeedRef(City, "São João Batista"),
+      city: new SeedRef(City, "4681"),
       state: new SeedRef(State, "SC"),
       zipCode: "88240000"
     },
     location: [798789, 78978987]
   }, "Organização teste");
-
-//name: {type: String, required: true},
-//phone: {type: Number, required: true},
-//email: {type: String, required: true},
-//address: {
-//  street: {type: String, required: true},
-//  number: {type: String, required: true},
-//  district: {type: String, required: true},
-//  city: {type: Schema.Types.ObjectId, ref: 'City', required: true, index: true},
-//  state: {type: Schema.Types.ObjectId, ref: 'State', required: true, index: true},
-//  zipCode: {type: Number, required: true},
-//  complement: {type: String},
-//  asString: {type: String}
-//},
-//location: {
-//  index: '2dsphere',
-//    type: [Number],
-//    required: true
-//},
-//info: String
-//
 
 module.exports = seeder;

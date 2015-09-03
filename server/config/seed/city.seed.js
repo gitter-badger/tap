@@ -12,7 +12,7 @@ cities.forEach(function(city){
   seeder.add({
     name: cityInfos[3],
     state: new SeedRef(State, cityInfos[4].toUpperCase())
-  }, cityInfos[3]);
+  }, cityInfos[0]);
 });
 
 module.exports = seeder;
