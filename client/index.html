@@ -13,11 +13,11 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
-      <link rel="stylesheet" href="bower_components/angular-spinkit/build/angular-spinkit.min.css" />
-      <link rel="stylesheet" href="bower_components/trNgGrid/trNgGrid.css" />
       <link rel="stylesheet" href="bower_components/angular-notify/dist/angular-notify.css" />
-      <link rel="stylesheet" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css" />
+      <link rel="stylesheet" href="bower_components/angular-spinkit/build/angular-spinkit.min.css" />
       <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
+      <link rel="stylesheet" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css" />
+      <link rel="stylesheet" href="bower_components/trNgGrid/trNgGrid.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -55,24 +55,25 @@
       <!-- bower:js -->
       <script src="bower_components/jquery/dist/jquery.js"></script>
       <script src="bower_components/angular/angular.js"></script>
-      <script src="bower_components/angular-resource/angular-resource.js"></script>
-      <script src="bower_components/angular-spinkit/build/angular-spinkit.js"></script>
-      <script src="bower_components/trNgGrid/trNgGrid.js"></script>
-      <script src="bower_components/angular-notify/dist/angular-notify.js"></script>
+      <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
       <script src="bower_components/angular-eyesight/angular-eyesight.js"></script>
-      <script src="bower_components/ng-ckeditor/ng-ckeditor.js"></script>
+      <script src="bower_components/lodash/lodash.js"></script>
+      <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+      <script src="bower_components/angular-messages/angular-messages.js"></script>
+      <script src="bower_components/angular-notify/dist/angular-notify.js"></script>
+      <script src="bower_components/angular-resource/angular-resource.js"></script>
+      <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+      <script src="bower_components/angular-socket-io/socket.js"></script>
+      <script src="bower_components/angular-spinkit/build/angular-spinkit.js"></script>
+      <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+      <script src="bower_components/angular-ui-select/dist/select.js"></script>
       <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
+      <script src="bower_components/async/lib/async.js"></script>
+      <script src="bower_components/ng-ckeditor/ng-ckeditor.js"></script>
       <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
       <script src="bower_components/ng-file-upload-shim/ng-file-upload-shim.js"></script>
-      <script src="bower_components/async/lib/async.js"></script>
-      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-      <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-      <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-      <script src="bower_components/lodash/lodash.js"></script>
-      <script src="bower_components/angular-socket-io/socket.js"></script>
-      <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-      <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
-      <script src="bower_components/angular-ui-select/dist/select.js"></script>
+      <script src="bower_components/trNgGrid/trNgGrid.js"></script>
       <!-- endbower -->
       <script src="socket.io-client/socket.io.js"></script>
     <!-- endbuild -->
@@ -106,10 +107,15 @@
           <script src="app/admin/settings/settings.js"></script>
           <script src="app/admin/text/text.controller.js"></script>
           <script src="app/admin/text/text.js"></script>
+          <script src="app/admin/thing/thing-edit.controller.js"></script>
+          <script src="app/admin/thing/thing-index.controller.js"></script>
+          <script src="app/admin/thing/thing-new.controller.js"></script>
           <script src="app/admin/thing/thing.controller.js"></script>
           <script src="app/admin/thing/thing.js"></script>
           <script src="app/admin/user/user.controller.js"></script>
           <script src="app/admin/user/user.js"></script>
+          <script src="app/app.config.js"></script>
+          <script src="app/app.run.js"></script>
           <script src="app/home/home.controller.js"></script>
           <script src="app/home/home.js"></script>
           <script src="app/info/info.controller.js"></script>
@@ -117,15 +123,24 @@
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
           <script src="app/organization/organization.js"></script>
+          <script src="components/auth/auth-interceptor.service.js"></script>
           <script src="components/auth/auth.service.js"></script>
           <script src="components/enum/enum.filter.js"></script>
           <script src="components/enum/enum.service.js"></script>
+          <script src="components/form/tap-form-error-messages.directive.js"></script>
+          <script src="components/form/tap-form-group.directive.js"></script>
           <script src="components/media-select/media-select.controller.js"></script>
           <script src="components/media-select/media-select.service.js"></script>
           <script src="components/media/file-upload.service.js"></script>
           <script src="components/modal/modal.service.js"></script>
           <script src="components/mongoose-error/mongoose-error.directive.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
+          <script src="components/notifier/notifier.service.js"></script>
+          <script src="components/popup/popup.service.js"></script>
+          <script src="components/resource-manager/resource-creator.service.js"></script>
+          <script src="components/resource-manager/resource-destroyer.service.js"></script>
+          <script src="components/resource-manager/resource-manager.service.js"></script>
+          <script src="components/resource-manager/resource-updater.service.js"></script>
           <script src="components/resources/breed.service.js"></script>
           <script src="components/resources/city.service.js"></script>
           <script src="components/resources/file.service.js"></script>
