@@ -13,7 +13,7 @@
         <a class="navbar-brand" ui-sref="main.home">TAP</a>
       </div>
       <ul class="nav navbar-right top-nav">
-        <li ng-show='ui.isLoading()'>
+        <li ng-show='uiLoading()'>
           <a>
             <three-bounce-spinner class="admin-spinner">
             </three-bounce-spinner>
@@ -61,8 +61,8 @@
               ng-if="hasRole('org')">
             <a ui-sref="admin.breed"><i class="fa fa-fw fa-paw"></i> Raças</a>
           </li>
-          <li data-to-top ng-class="{active: menuIsActive('admin.thing')}" ng-if="hasRole('root')">
-            <a ui-sref="admin.thing"><i class="fa fa-fw fa-table"></i> Coisas</a>
+          <li data-to-top ng-class="{active: menuIsActive(['admin.thing.index', 'admin.thing.edit', 'admin.thing.new'])}" ng-if="hasRole('root')">
+            <a ui-sref="admin.thing.index"><i class="fa fa-fw fa-table"></i> Coisas</a>
           </li>
         </ul>
       </div>

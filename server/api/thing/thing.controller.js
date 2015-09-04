@@ -14,7 +14,7 @@ var Thing = require('./thing.model');
 
 // Get list of things
 exports.index = function (req, res) {
-  Thing.find({deleted: false}, function (err, things) {
+  Thing.find({deleted: false}, {}, {sort: '-createdAt'}, function (err, things) {
     if (err) {
       return handleError(res, err);
     }

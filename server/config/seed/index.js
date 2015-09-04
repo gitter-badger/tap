@@ -7,6 +7,7 @@ var container = new Container();
 //add seeders
 container.add(require('./state.seed'));
 container.add(require('./city.seed'));
+container.add(require('./thing.seed'));
 
 //build seeders references
 container.build();

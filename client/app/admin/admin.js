@@ -1,7 +1,7 @@
-'use strict';
-
 angular.module('tapApp')
   .config(function ($stateProvider) {
+    'use strict';
+
     $stateProvider
       .state('admin', {
         abstract: true,
