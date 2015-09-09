@@ -21,7 +21,7 @@
         })
         .catch(function (error) {
           if (error) {
-            notifier.notify('Algum erro ocorreu ao atualizar');
+            notifier.notify('Algum erro ocorreu ao atualizar', 'error');
           }
         });
     }
