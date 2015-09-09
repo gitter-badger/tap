@@ -92,7 +92,7 @@ module.exports = function (grunt) {
           '<%= yeoman.client %>/{app,components}/**/*.spec.js',
           '<%= yeoman.client %>/{app,components}/**/*.mock.js'
         ],
-        tasks: ['newer:jshint:all', 'karma']
+        tasks: ['newer:jshint:all', 'karma:unit']
       },
       injectSass: {
         files: [
@@ -444,6 +444,12 @@ module.exports = function (grunt) {
       unit: {
         configFile: 'karma.conf.js',
         singleRun: true
+      },
+      dev: {
+        configFile: 'karma.conf.js',
+        singleRun: false,
+        autoWatch: true,
+        reporters: ['progress']
       }
     },
 
@@ -646,7 +652,7 @@ module.exports = function (grunt) {
         'concurrent:test',
         'injector',
         'autoprefixer',
-        'karma',
+        'karma:unit',
         'coverage'
       ]);
     }

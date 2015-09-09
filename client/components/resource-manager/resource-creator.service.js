@@ -27,9 +27,6 @@
             resolve(resource);
           })
           .catch(function (error) {
-            if (error) {
-              console.log(error);
-            }
             resource.$saving = false;
             reject(error);
           });

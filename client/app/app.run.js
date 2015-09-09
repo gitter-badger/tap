@@ -60,9 +60,15 @@
           LoginModal.open();
           return;
         }
-        if ((next.role && loggedIn) && !next.role($injector)) {
-          event.preventDefault();
-          $state.go('main.home');
+        if ((next.role && loggedIn)) {
+          if(angular.isFunction(next.role) && !next.role($injector)){
+            event.preventDefault();
+            $state.go('main.home');
+          }
+          if(angular.isString(next.role) && !Auth.hasRole(next.role)){
+            event.preventDefault();
+            $state.go('main.home');
+          }
         }
       });
     });
