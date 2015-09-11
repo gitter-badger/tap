@@ -1,13 +1,31 @@
-var Seeder = require('./seeder');
+'use strict';
+
+var Promise = require('bluebird');
 var Thing = require('./../../api/thing/thing.model');
+var async = require('async');
 
-var seeder = new Seeder(Thing);
+function thingSeeder() {
 
-for (var i = 0; i <= 10; i++) {
-  seeder.add({
-    name: 'Any Thing ' + i,
-    info: 'Created By Seeder'
+  var states = [{
+    name: 'Awesome Thing',
+    info: 'Create by Seed'
+  }];
+
+  return new Promise(function (fulfill, reject) {
+    Thing.remove().exec(function () {
+      async.map(states, function (item, done) {
+
+        Thing.create(item, done);
+
+      }, function (err, result) {
+        if (err) {
+          return reject(err);
+        }
+
+        return fulfill(result);
+      });
+    });
   });
 }
 
-module.exports = seeder;
+module.exports = thingSeeder;

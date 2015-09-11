@@ -4,7 +4,6 @@ var Diacritics = require('diacritic');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var slug = require('slug');
-var gmFilters = require('./../../components/gm-filters');
 
 var CitySchema = new Schema({
   name: {type: String, require: true},

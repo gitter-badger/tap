@@ -1,18 +1,32 @@
-var Seeder = require('./seeder');
-var SeedRef = require('./seed-ref');
-var Cities = require('./list-of-cities');
+'use strict';
+
+var Promise = require('bluebird');
 var City = require('./../../api/city/city.model');
-var State = require('./../../api/state/state.model');
+var async = require('async');
 
+function citySeeder(states) {
 
-var seeder = new Seeder(City);
+  var cities = [{
+    name: 'Tijucas',
+    state: states[0]
+  }];
 
-Cities.forEach(function(city){
-  var cityInfos = city.split(",");
-  seeder.add({
-    name: cityInfos[3],
-    state: new SeedRef(State, cityInfos[4].toUpperCase())
+  return new Promise(function (fulfill, reject) {
+    City.remove().exec().then(function () {
+      async.map(cities, function (item, done) {
+
+        City.create(item, done);
+
+      }, function (err, result) {
+        if(err){
+          return reject(err);
+        }
+
+        return fulfill(result);
+      });
+    });
   });
-});
+}
 
-module.exports = seeder;
+module.exports = citySeeder;
+

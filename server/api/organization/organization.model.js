@@ -44,11 +44,11 @@ OrganizationSchema
 OrganizationSchema.methods = {
   updateFullAddress: function (done) {
     var self = this;
-    self.populate('city', function (err) {
+    self.populate('city', function (err, city) {
       if (err) {
         return done(err);
       }
-      self.city.populate('state', function (err, city) {
+      city.populate('state', function (err, state) {
         if (err) {
           return done(err);
         }
@@ -56,9 +56,9 @@ OrganizationSchema.methods = {
         self.fullAddress += self.number + ', ';
         self.fullAddress += self.district + ' ';
         self.fullAddress += city.name + ' - ';
-        self.fullAddress += city.state.acronym;
+        self.fullAddress += state.acronym;
         self.city = city._id;
-        self.state = city.state._id;
+        self.state = state._id;
         done();
       });
     });

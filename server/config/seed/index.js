@@ -1,24 +1,23 @@
-var _ = require('lodash');
-var Container = require('./container');
+var Promise = require('bluebird');
+var stateSeeder = require('./state.seed');
+var citySeeder = require('./city.seed');
+var thingSeeder = require('./thing.seed');
+var organizationSeeder = require('./organization.seed');
 
-//create the seed container
-var container = new Container();
 
-//add seeders
-container.add(require('./state.seed'));
-container.add(require('./city.seed'));
-container.add(require('./thing.seed'));
-
-//build seeders references
-container.build();
-
-//run all seeders
-container.run(function (err, result) {
-  if (err) {
-    console.log('Erro ao executar o seed, veja os erros abaixo');
-    console.log(err);
-  }
-
-  console.log('\nSeed executado com sucesso dos seguintes seeders:');
-  console.log(_.keys(result).toString() + '\n');
+var stateSeed = stateSeeder();
+var citySeed = stateSeed.then(function (states) {
+  return citySeeder(states);
 });
+var thingSeed = thingSeeder();
+var organizationSeed = Promise.join(stateSeed, citySeed, function (states, cities) {
+  return organizationSeeder(states, cities);
+});
+
+
+var seeders = [thingSeed, citySeed, stateSeed, organizationSeed];
+seeders.push(function () {
+  console.log('Seed concluído');
+});
+
+Promise.join.apply({}, seeders);

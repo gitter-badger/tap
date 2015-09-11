@@ -1,15 +1,31 @@
-var Seeder = require('./seeder');
+'use strict';
+
+var Promise = require('bluebird');
 var State = require('./../../api/state/state.model');
-var states = require('./list-of-states');
+var async = require('async');
 
-var seeder = new Seeder(State);
+function stateSeeder() {
 
-states.forEach(function(state){
-  var stateInfos = state.split(",");
-  seeder.add({
-    name: stateInfos[1].trim(),
-    acronym: stateInfos[2].trim().toUpperCase()
-  }, stateInfos[2].trim());
-});
+  var states = [{
+    name: 'Santa Catarina',
+    acronym: 'SC'
+  }];
 
-module.exports = seeder;
+  return new Promise(function (fulfill, reject) {
+    State.remove().exec(function () {
+      async.map(states, function (item, done) {
+
+        State.create(item, done);
+
+      }, function (err, result) {
+        if (err) {
+          return reject(err);
+        }
+
+        return fulfill(result);
+      });
+    });
+  });
+}
+
+module.exports = stateSeeder;
