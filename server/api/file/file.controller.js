@@ -23,7 +23,7 @@ exports.index = function (req, res) {
     if (err) {
       return handleError(res, err);
     }
-    return res.json(200, files);
+    return res.status(200).json(files);
   });
 };
 

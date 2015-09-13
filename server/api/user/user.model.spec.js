@@ -13,7 +13,6 @@ var user = new User({
 
 describe('User Model', function() {
   before(function(done) {
-    // Clear users before testing
     User.remove().exec().then(function() {
       done();
     });
@@ -25,14 +24,14 @@ describe('User Model', function() {
     });
   });
 
-  it('should begin with no users', function(done) {
+  it('begins with no users', function(done) {
     User.find({}, function(err, users) {
       users.should.have.length(0);
       done();
     });
   });
 
-  it('should fail when saving a duplicate user', function(done) {
+  it('fails when saving a duplicate user', function(done) {
     user.save(function() {
       var userDup = new User(user);
       userDup.save(function(err) {
@@ -42,7 +41,7 @@ describe('User Model', function() {
     });
   });
 
-  it('should fail when saving without an email', function(done) {
+  it('fails when saving without an email', function(done) {
     user.email = '';
     user.save(function(err) {
       should.exist(err);
@@ -50,11 +49,11 @@ describe('User Model', function() {
     });
   });
 
-  it("should authenticate user if password is valid", function() {
+  it("authenticates user if password is valid", function() {
     return user.authenticate('password').should.be.true;
   });
 
-  it("should not authenticate user if password is invalid", function() {
+  it("does not authenticate user if password is invalid", function() {
     return user.authenticate('blah').should.not.be.true;
   });
 });

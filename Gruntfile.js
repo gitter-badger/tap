@@ -457,7 +457,8 @@ module.exports = function (grunt) {
       test: {
         options: {
           reporter: 'spec',
-          require: 'blanket'
+          require: 'blanket',
+          clearRequireCache: true
         },
         src: ['server/**/*.spec.js']
       },
@@ -707,6 +708,13 @@ module.exports = function (grunt) {
 
   grunt.registerTask('debug', [
     'serve:debug'
+  ]);
+
+  grunt.registerTask('mocha:dev', [
+    'env:all',
+    'env:test',
+    'mochaTest',
+    'watch:mochaTest'
   ]);
 
   grunt.registerTask('default', [

@@ -58,7 +58,7 @@ exports.index = function (req, res) {
       if (err) {
         return handleError(res, err);
       }
-      return res.json(200, {
+      return res.status(200).json({
         page: req.query.page,
         count: count,
         countByPage: pets.length,
