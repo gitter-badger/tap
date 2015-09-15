@@ -10,73 +10,83 @@ exports.update = update;
 exports.destroy = destroy;
 
 function index(req, res) {
-  Thing.find({deleted: false}, {}, {sort: '-createdAt'}, function (err, things) {
-    if (err) {
-      return handleError(res, err);
-    }
-    return res.status(200).json(things);
-  });
+  Thing
+    .find()
+    .where({deleted: false})
+    .sort('-createdAt')
+    .exec(mongoResult(res, function (things) {
+      return res.status(200).json(things);
+    }));
 }
 
 function show(req, res) {
-  Thing.findOne({_id: req.params.id, deleted: false}, function (err, thing) {
-    if (err) {
-      return handleError(res, err);
-    }
-    if (!thing) {
-      return res.status(404).send('Not Found');
-    }
-    return res.json(thing);
-  });
+  Thing
+    .findOne()
+    .where({_id: req.params.id, deleted: false})
+    .exec(mongoResultWithNotFound(res, function (thing) {
+      return res.json(thing);
+    }));
 }
 
 function create(req, res) {
-  Thing.create(req.body, function (err, thing) {
-    if (err) {
-      return handleError(res, err);
-    }
+  var thing = new Thing(req.body);
+
+  thing.save(mongoResult(res, function (thing) {
     return res.status(201).json(thing);
-  });
+  }));
 }
 
 function update(req, res) {
-  if (req.body._id) {
-    delete req.body._id;
-  }
-  Thing.findOne({_id: req.params.id, deleted: false}, function (err, thing) {
-    if (err) {
-      return handleError(res, err);
-    }
-    if (!thing) {
-      return res.status(404).send('Not Found');
-    }
-    var updated = _.merge(thing, req.body);
-    updated.save(function (err) {
-      if (err) {
-        return handleError(res, err);
-      }
-      return res.status(200).json(thing);
-    });
-  });
+  Thing
+    .findOne()
+    .where({_id: req.params.id, deleted: false})
+    .exec(mongoResultWithNotFound(res, function (thing) {
+      var updated = _.merge(thing, req.body, {_id: thing._id});
+
+      updated.save(mongoResult(res, function () {
+        return res.status(200).json(thing);
+      }));
+    }));
 }
 
 function destroy(req, res) {
-  Thing.findById(req.params.id, function (err, thing) {
+  Thing
+    .findById(req.params.id)
+    .exec(mongoResultWithNotFound(res, function (thing) {
+      thing.delete(mongoResult(res, function () {
+        return res.status(204).send('No Content');
+      }));
+    }));
+}
+
+function mongoResult(res, callback) {
+  return function (err, things) {
     if (err) {
       return handleError(res, err);
     }
-    if (!thing) {
-      return res.status(404).send('Not Found');
+
+    return callback(things);
+  }
+}
+
+function mongoResultWithNotFound(res, callback) {
+  return function (err, thing) {
+    if (err) {
+      return handleError(res, err);
     }
-    thing.delete(function (err) {
-      if (err) {
-        return handleError(res, err);
-      }
-      return res.status(204).send('No Content');
-    });
-  });
+
+    if (!thing) {
+      return res.status(404).send('No Content');
+    }
+
+    return callback(thing);
+  }
 }
 
 function handleError(res, err) {
+  if (err.name === 'ValidationError' || err.name === 'CastError') {
+    return res.status(422).send(err);
+  }
+
   return res.status(500).send(err);
 }
