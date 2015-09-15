@@ -4,9 +4,15 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ThingSchema = new Schema({
-  name: String,
+  name: {type: String, required: true},
   info: String
 });
+
+ThingSchema.path('name').validate(function (name) {
+  if (!name) return true;
+
+  return name.length > 5;
+}, 'Name longer than 5 characters');
 
 ThingSchema.plugin(require('mongoose-created-at'));
 ThingSchema.plugin(require('mongoose-updated-at'));
