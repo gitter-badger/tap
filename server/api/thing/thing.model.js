@@ -4,12 +4,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ThingSchema = new Schema({
-  name: {type: String, required: true, min: 5},
+  name: {type: String, required: true},
   info: String
 });
 
 ThingSchema.path('name').validate(function (name) {
-  if(!name) return true;
+  if (!name) return true;
 
   return name.length > 5;
 }, 'Name longer than 5 characters');

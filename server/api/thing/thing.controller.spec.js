@@ -5,20 +5,24 @@ var app = require('../../app');
 var request = require('supertest');
 var Thing = require('./thing.model');
 var mongoose = require('mongoose');
+var DatabaseCleaner = require('database-cleaner');
+var databaseCleaner = new DatabaseCleaner('mongodb');
+var mongoose = require('mongoose');
+var Factory = require('./thing.factory');
 
 describe('Thing Endpoints', function () {
 
   beforeEach(function (done) {
-    Thing.remove().exec(done);
+    databaseCleaner.clean(mongoose.connections[0].db, done);
   });
 
   after(function (done) {
-    Thing.remove().exec(done);
+    databaseCleaner.clean(mongoose.connections[0].db, done);
   });
 
   describe('GET /api/things', function () {
     beforeEach(function (done) {
-      Thing.create({name: 'some thing', info: 'some thing'}, done);
+      Factory.create().spread(done);
     });
 
     it('responds the list of resources', function (done) {
@@ -39,7 +43,7 @@ describe('Thing Endpoints', function () {
   describe('GET /api/things/:id', function () {
     var id;
     beforeEach(function (done) {
-      Thing.create({name: 'Awesome Thing', info: 'test'}, function (err, thing) {
+      Factory.create().spread(function (err, thing) {
         id = thing._id;
         done(err, thing);
       });
@@ -107,7 +111,7 @@ describe('Thing Endpoints', function () {
   describe('PUT /api/things/:id', function () {
     var id;
     beforeEach(function (done) {
-      Thing.create({name: 'Awesome Thing', info: 'test'}, function (err, thing) {
+      Factory.create().spread(function (err, thing) {
         id = thing._id;
         done(err, thing);
       });
@@ -160,7 +164,7 @@ describe('Thing Endpoints', function () {
   describe('DELETE /api/things/:id', function () {
     var id;
     beforeEach(function (done) {
-      Thing.create({name: 'Awesome Thing', info: 'test'}, function (err, thing) {
+      Factory.create().spread(function (err, thing) {
         id = thing._id;
         done(err, thing);
       });
